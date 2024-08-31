@@ -38,7 +38,6 @@ import com.example.note.core.compose.BasicOutlineTextField
 import com.example.note.ui.theme.customColor
 import org.koin.androidx.compose.koinViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     onSignUp: () -> Unit = {},

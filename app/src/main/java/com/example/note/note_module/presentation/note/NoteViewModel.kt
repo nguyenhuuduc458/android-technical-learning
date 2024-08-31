@@ -1,5 +1,6 @@
 package com.example.note.note_module.presentation.note
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.note.core.sharepreference.SharePreferenceUtil.currentLoginAccountId
@@ -21,7 +22,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class NoteViewModel(
-    private val noteUseCase: NoteUseCase
+    private val noteUseCase: NoteUseCase,
 ) : ViewModel() {
     private val _noteState = MutableStateFlow(NoteState())
     val noteState: StateFlow<NoteState> get() = _noteState.asStateFlow()

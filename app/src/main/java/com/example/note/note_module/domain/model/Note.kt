@@ -28,7 +28,7 @@ data class Note(
     @PrimaryKey(autoGenerate = true)
     val noteId: Int = 0,
     @ColumnInfo(name = "user_id")
-    val userId: Long,
+    val userId: Int,
     @ColumnInfo(name = "title")
     val title: String,
     @ColumnInfo(name = "description")

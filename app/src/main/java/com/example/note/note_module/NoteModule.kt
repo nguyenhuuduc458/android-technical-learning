@@ -4,7 +4,9 @@ import com.example.note.NoteDatabase
 import com.example.note.note_module.data.repository.NoteRepositoryImpl
 import com.example.note.note_module.domain.repository.NoteRepository
 import com.example.note.note_module.domain.usecase.NoteUseCase
+import com.example.note.note_module.presentation.add_edit_note.AddEditNoteViewModel
 import com.example.note.note_module.presentation.note.NoteViewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val noteModule
@@ -29,5 +31,6 @@ val useCaseModule
 
 val noteViewModelModule
     get() = module {
-        single { NoteViewModel(get()) }
+        viewModel { NoteViewModel(get()) }
+        viewModel { AddEditNoteViewModel(get()) }
     }

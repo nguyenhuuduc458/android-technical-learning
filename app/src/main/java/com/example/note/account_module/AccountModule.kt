@@ -23,7 +23,7 @@ val repositoryModule
     get() = module {
         single { Dispatchers.IO }
         single { get<NoteDatabase>().accountDao() }
-        single<AccountRepository> { AccountRepositoryImpl(get()) }
+        single<AccountRepository> { AccountRepositoryImpl(get(), get()) }
     }
 
 val useCaseModule

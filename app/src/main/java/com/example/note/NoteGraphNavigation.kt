@@ -1,6 +1,7 @@
 package com.example.note
 
 import androidx.navigation.NavHostController
+import com.example.note.note_module.domain.model.Note
 import kotlinx.serialization.Serializable
 
 // Account route
@@ -12,6 +13,9 @@ object RegisterRoute
 
 @Serializable
 object NoteRoute
+
+@Serializable
+data class AddEditNoteRoute(val noteId: Int = -1)
 
 class NoteGraphNavigationActions(private val navController: NavHostController) {
     fun navigateToLogin() {
@@ -42,6 +46,10 @@ class NoteGraphNavigationActions(private val navController: NavHostController) {
     }
 
     fun onBackPressed() {
-        navController.popBackStack()
+        navController.navigateUp()
+    }
+
+    fun navigateToAddEditScreen(noteId: Int = -1) {
+        navController.navigate(route = AddEditNoteRoute(noteId))
     }
 }

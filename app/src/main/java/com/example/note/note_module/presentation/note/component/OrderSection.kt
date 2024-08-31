@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.note.core.compose.DefaultRadioButton
+import com.example.note.note_module.domain.util.NoteEvent
 import com.example.note.note_module.domain.util.NoteOrder
 import com.example.note.note_module.domain.util.OrderType
 
@@ -40,13 +42,21 @@ fun OrderSection(
         Row(modifier = Modifier.fillMaxWidth()) {
             DefaultRadioButton(
                 text = "Ascending",
-                selected = noteOrder is NoteOrder.Title,
+                selected = noteOrder.orderType is OrderType.Ascending,
                 onSelect = { onOrderChange(noteOrder.copy(OrderType.Ascending)) })
             Spacer(modifier = Modifier.width(8.dp))
             DefaultRadioButton(
                 text = "Descending",
-                selected = noteOrder is NoteOrder.Date,
+                selected = noteOrder.orderType is OrderType.Descending,
                 onSelect = { onOrderChange(noteOrder.copy(OrderType.Descending))})
         }
+    }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+fun Preview() {
+    OrderSection(modifier = Modifier.fillMaxWidth()) {
+
     }
 }
