@@ -1,6 +1,5 @@
 package com.example.note.note_module.presentation.note
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.note.core.sharepreference.SharePreferenceUtil.currentLoginAccountId
@@ -44,7 +43,6 @@ class NoteViewModel(
             }
 
             is NoteEvent.InsertNote -> {
-
             }
 
             is NoteEvent.Order -> {
@@ -64,7 +62,7 @@ class NoteViewModel(
                 viewModelScope.launch {
                     _noteState.update {
                         it.copy(
-                            isOrderSectionVisible = !it.isOrderSectionVisible
+                            isOrderSectionVisible = !it.isOrderSectionVisible,
                         )
                     }
                 }
@@ -75,16 +73,16 @@ class NoteViewModel(
     private fun getNote(noteOrder: NoteOrder) {
         check(currentLoginAccountId > 0) { "Account id must be greater than 0" }
         getNoteJob?.cancel()
-        getNoteJob = noteUseCase.getNotesWithOrder(currentLoginAccountId, noteOrder)
-            .onStart {
-                println("start get note")
-            }
-            .onEach { notes ->
-                _noteState.update {
-                    it.copy(notes = notes, noteOrder = noteOrder)
-                }
-            }.catch {
-
-            }.launchIn(viewModelScope)
+        getNoteJob =
+            noteUseCase
+                .getNotesWithOrder(currentLoginAccountId, noteOrder)
+                .onStart {
+                    println("start get note")
+                }.onEach { notes ->
+                    _noteState.update {
+                        it.copy(notes = notes, noteOrder = noteOrder)
+                    }
+                }.catch {
+                }.launchIn(viewModelScope)
     }
 }

@@ -1,7 +1,6 @@
 package com.example.note
 
 import androidx.navigation.NavHostController
-import com.example.note.note_module.domain.model.Note
 import kotlinx.serialization.Serializable
 
 // Account route
@@ -15,9 +14,13 @@ object RegisterRoute
 object NoteRoute
 
 @Serializable
-data class AddEditNoteRoute(val noteId: Int = -1)
+data class AddEditNoteRoute(
+    val noteId: Int = -1,
+)
 
-class NoteGraphNavigationActions(private val navController: NavHostController) {
+class NoteGraphNavigationActions(
+    private val navController: NavHostController,
+) {
     fun navigateToLogin() {
         navController.navigate(route = LoginRoute) {
             popUpTo(navController.graph.startDestinationId) {

@@ -19,24 +19,24 @@ import com.example.note.note_module.presentation.note.NoteScreen
 @Composable
 fun NoteGraph(
     navController: NavHostController = rememberNavController(),
-    startDestination: Any = if(currentLoginAccountId != -1) NoteRoute else LoginRoute,
-    navActions: NoteGraphNavigationActions = remember(navController) {
-        NoteGraphNavigationActions(navController)
-    }
+    startDestination: Any = if (currentLoginAccountId != -1) NoteRoute else LoginRoute,
+    navActions: NoteGraphNavigationActions =
+        remember(navController) {
+            NoteGraphNavigationActions(navController)
+        },
 ) {
     val currentNavBackStackEntry: NavBackStackEntry? by navController.currentBackStackEntryAsState()
-    val currentRoute: Any = currentNavBackStackEntry?.destination?.route ?: startDestination
 
     NavHost(navController = navController, startDestination = startDestination) {
         composable<LoginRoute> {
             LoginScreen(
                 onLoginSuccess = { navActions.navigationToNote() },
-                onSignUp = { navActions.navigateToRegister() }
+                onSignUp = { navActions.navigateToRegister() },
             )
         }
         composable<RegisterRoute> {
             RegisterScreen(
-                onSignIn = { navActions.navigateToLogin() }
+                onSignIn = { navActions.navigateToLogin() },
             )
         }
         composable<NoteRoute> {
@@ -50,7 +50,7 @@ fun NoteGraph(
             val route = backStackEntry.toRoute<AddEditNoteRoute>()
             AddEditNoteScreen(
                 noteId = route.noteId,
-                onBackPress = { navActions.onBackPressed() }
+                onBackPress = { navActions.onBackPressed() },
             )
         }
     }

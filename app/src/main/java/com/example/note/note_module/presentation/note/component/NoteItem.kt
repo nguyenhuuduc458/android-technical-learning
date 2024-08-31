@@ -5,14 +5,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,19 +33,20 @@ fun NoteItem(
     modifier: Modifier = Modifier,
     cornerRadius: Dp = 10.dp,
     cutCornerSize: Dp = 30.dp,
-    onDeleteClick: () -> Unit = {}
+    onDeleteClick: () -> Unit = {},
 ) {
     Box(
         modifier = modifier,
     ) {
         Canvas(modifier = Modifier.matchParentSize()) {
-            val clipPath = Path().apply {
-                lineTo(size.width - cutCornerSize.toPx(), 0f)
-                lineTo(size.width, cutCornerSize.toPx())
-                lineTo(size.width, size.height)
-                lineTo(0f, size.height)
-                close()
-            }
+            val clipPath =
+                Path().apply {
+                    lineTo(size.width - cutCornerSize.toPx(), 0f)
+                    lineTo(size.width, cutCornerSize.toPx())
+                    lineTo(size.width, size.height)
+                    lineTo(0f, size.height)
+                    close()
+                }
 
             clipPath(clipPath) {
                 drawRoundRect(
@@ -56,9 +55,10 @@ fun NoteItem(
                     cornerRadius = CornerRadius(cornerRadius.toPx()),
                 )
                 drawRoundRect(
-                    color = Color(
-                        ColorUtils.blendARGB(note.color, 0x000000, 0.2f)
-                    ),
+                    color =
+                        Color(
+                            ColorUtils.blendARGB(note.color, 0x000000, 0.2f),
+                        ),
                     topLeft = Offset(size.width - cutCornerSize.toPx(), -100f),
                     size = Size(cutCornerSize.toPx() + 100f, cutCornerSize.toPx() + 100f),
                     cornerRadius = CornerRadius(cornerRadius.toPx()),
@@ -66,17 +66,18 @@ fun NoteItem(
             }
         }
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-                .padding(end = 32.dp)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+                    .padding(end = 32.dp),
         ) {
             Text(
                 text = note.title,
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
@@ -84,12 +85,12 @@ fun NoteItem(
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 10,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
             )
             IconButton(onClick = { onDeleteClick() }) {
                 Icon(
                     imageVector = Icons.Default.Delete,
-                    contentDescription = "Delete note"
+                    contentDescription = "Delete note",
                 )
             }
         }

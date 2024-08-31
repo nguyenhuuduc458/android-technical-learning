@@ -52,18 +52,19 @@ import org.koin.androidx.compose.koinViewModel
 fun AddEditNoteScreen(
     noteId: Int = -1,
     viewModel: AddEditNoteViewModel = koinViewModel(),
-    onBackPress: () -> Unit
+    onBackPress: () -> Unit,
 ) {
     viewModel.getNote(noteId)
     val titleState: NoteTextFieldState by viewModel.noteTitle.collectAsState()
     val contentState: NoteTextFieldState by viewModel.noteContent.collectAsState()
     val snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
     val noteBackgroundColor by viewModel.noteColor.collectAsState()
-    val noteBackgroundAnimatable = remember {
-        Animatable(
-            Color(viewModel.noteColor.value)
-        )
-    }
+    val noteBackgroundAnimatable =
+        remember {
+            Animatable(
+                Color(viewModel.noteColor.value),
+            )
+        }
     val scope = rememberCoroutineScope()
     LaunchedEffect(true) {
         viewModel.eventFlow.collectLatest { event ->
@@ -82,50 +83,56 @@ fun AddEditNoteScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { viewModel.onEvent(AddEditNoteEvent.SaveNote) },
-                contentColor = MaterialTheme.colorScheme.primary
+                contentColor = MaterialTheme.colorScheme.primary,
             ) {
                 Icon(imageVector = Icons.Default.Done, contentDescription = "Create note")
             }
         },
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color(noteBackgroundColor))
-                .padding(16.dp)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(Color(noteBackgroundColor))
+                    .padding(16.dp),
         ) {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Note.noteColors.forEach { color ->
                     val colorInt = color.toArgb()
                     Box(
-                        modifier = Modifier
-                            .size(50.dp)
-                            .shadow(15.dp, CircleShape)
-                            .clip(CircleShape)
-                            .background(color)
-                            .border(
-                                width = 3.dp,
-                                color = if (viewModel.noteColor.value == colorInt) {
-                                    Color.Black
-                                } else Color.Transparent,
-                                shape = CircleShape
-                            )
-                            .clickable {
-                                scope.launch {
-                                    noteBackgroundAnimatable.animateTo(
-                                        targetValue = Color(colorInt),
-                                        animationSpec = tween(
-                                            durationMillis = 500
+                        modifier =
+                            Modifier
+                                .size(50.dp)
+                                .shadow(15.dp, CircleShape)
+                                .clip(CircleShape)
+                                .background(color)
+                                .border(
+                                    width = 3.dp,
+                                    color =
+                                        if (viewModel.noteColor.value == colorInt) {
+                                            Color.Black
+                                        } else {
+                                            Color.Transparent
+                                        },
+                                    shape = CircleShape,
+                                ).clickable {
+                                    scope.launch {
+                                        noteBackgroundAnimatable.animateTo(
+                                            targetValue = Color(colorInt),
+                                            animationSpec =
+                                                tween(
+                                                    durationMillis = 500,
+                                                ),
                                         )
-                                    )
-                                }
-                                viewModel.onEvent(AddEditNoteEvent.ChangeColor(colorInt))
-                            }
+                                    }
+                                    viewModel.onEvent(AddEditNoteEvent.ChangeColor(colorInt))
+                                },
                     )
                 }
             }
@@ -141,7 +148,7 @@ fun AddEditNoteScreen(
                 },
                 isHintVisible = titleState.isHintVisible,
                 singleLine = true,
-                textStyle = MaterialTheme.typography.titleLarge
+                textStyle = MaterialTheme.typography.titleLarge,
             )
             Spacer(modifier = Modifier.height(16.dp))
             TransparentHintTextField(
@@ -156,7 +163,7 @@ fun AddEditNoteScreen(
                 isHintVisible = contentState.isHintVisible,
                 singleLine = true,
                 textStyle = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.fillMaxHeight()
+                modifier = Modifier.fillMaxHeight(),
             )
         }
     }

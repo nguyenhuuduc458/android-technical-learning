@@ -15,6 +15,7 @@ mockito-kotlin = "5.0.0"
 mockito-core = "5.5.0"
 retrofit = "2.11.0"
 glide="4.16.0"
+ktlint = "12.1.1"
 
 # @keep
 ksp = "1.8.10-1.0.9"
@@ -72,9 +73,10 @@ glide = {module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 com-android-application = { id = "com.android.application", version.ref = "agp" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+#kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 
 [bundles]
 

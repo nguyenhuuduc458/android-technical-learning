@@ -9,29 +9,28 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
-class NoteRepositoryImpl @OptIn(ExperimentalCoroutinesApi::class) constructor(
-    private val noteDao: NoteDao,
-    private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO.limitedParallelism(1)
-) : NoteRepository {
-    override fun getNoteByAccountId(accountId: Int): Flow<List<Note>> {
-        return noteDao.getNoteByAccountId(accountId)
-    }
+class NoteRepositoryImpl
+    @OptIn(ExperimentalCoroutinesApi::class)
+    constructor(
+        private val noteDao: NoteDao,
+        private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO.limitedParallelism(1),
+    ) : NoteRepository {
+        override fun getNoteByAccountId(accountId: Int): Flow<List<Note>> = noteDao.getNoteByAccountId(accountId)
 
-    override suspend fun insertNote(note: Note) {
-        checkNotNull(note.title) { "Title is not null or empty" }
-        checkNotNull(note.description) { "Description is not null or empty" }
-        withContext(defaultDispatcher) {
-            noteDao.insertNote(note)
+        override suspend fun insertNote(note: Note) {
+            check(note.title.isBlank()) { "Title is not null or empty" }
+            check(note.title.isBlank()) { "Description is not null or empty" }
+            withContext(defaultDispatcher) {
+                noteDao.insertNote(note)
+            }
+        }
+
+        override suspend fun deleteNote(note: Note) {
+            withContext(defaultDispatcher) { noteDao.deleteNote(note) }
+        }
+
+        override suspend fun findById(noteId: Int): Note? {
+            require(noteId > 0) { "Note with id $noteId must be greater than 0" }
+            return withContext(defaultDispatcher) { noteDao.findById(noteId) }
         }
     }
-
-    override suspend fun deleteNote(note: Note) {
-        withContext(defaultDispatcher) { noteDao.deleteNote(note) }
-    }
-
-    override suspend fun findById(noteId: Int): Note? {
-        require(noteId > 0) { "Note with id $noteId must be greater than 0" }
-        return withContext(defaultDispatcher) { noteDao.findById(noteId) }
-    }
-
-}

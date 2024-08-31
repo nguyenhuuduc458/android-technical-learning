@@ -33,7 +33,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.note.R
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BasicOutlineTextField(
@@ -41,7 +40,7 @@ fun BasicOutlineTextField(
     textValue: String,
     label: String,
     placeHolder: String,
-    onValueChanged: (String) -> Unit
+    onValueChanged: (String) -> Unit,
 ) {
     OutlinedTextField(
         modifier = modifier.fillMaxWidth(),
@@ -54,7 +53,7 @@ fun BasicOutlineTextField(
         },
         placeholder = {
             Text(placeHolder, color = Color.LightGray)
-        }
+        },
     )
 }
 
@@ -68,7 +67,7 @@ fun BasicOutlinePasswordTextField(
     onValueChanged: (String) -> Unit,
     passwordVisible: Boolean,
     toggleClick: (Boolean) -> Unit,
-    onDone: () -> Unit = {}
+    onDone: () -> Unit = {},
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     OutlinedTextField(
@@ -96,20 +95,22 @@ fun BasicOutlinePasswordTextField(
             }) {
                 Icon(
                     painter = painterResource(id = image),
-                    contentDescription = contentDescription
+                    contentDescription = contentDescription,
                 )
             }
         },
-        keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Text,
-            imeAction = ImeAction.Done
-        ),
-        keyboardActions = KeyboardActions(
-            onDone = {
-                keyboardController?.hide()
-                onDone()
-            }
-        )
+        keyboardOptions =
+            KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Done,
+            ),
+        keyboardActions =
+            KeyboardActions(
+                onDone = {
+                    keyboardController?.hide()
+                    onDone()
+                },
+            ),
     )
 }
 
@@ -117,19 +118,20 @@ fun BasicOutlinePasswordTextField(
 fun BasicButton(
     modifier: Modifier = Modifier,
     value: String = "",
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
 ) {
     Button(
         onClick = { onClick() },
         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6875F5)), // Button background color
-        shape = RoundedCornerShape(8.dp), // Rounded corners
-        modifier = modifier
-            .fillMaxWidth()
-            .height(50.dp) // Height of the button
+        shape = RoundedCornerShape(8.dp),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .height(50.dp),
     ) {
         Text(
             text = value,
-            color = Color.White, // Text color
+            color = Color.White,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
         )
@@ -141,17 +143,20 @@ fun DefaultRadioButton(
     text: String,
     selected: Boolean,
     onSelect: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         RadioButton(
-            selected = selected, onClick = onSelect, colors = RadioButtonDefaults.colors(
-                selectedColor = MaterialTheme.colorScheme.primary,
-                unselectedColor = MaterialTheme.colorScheme.onBackground
-            )
+            selected = selected,
+            onClick = onSelect,
+            colors =
+                RadioButtonDefaults.colors(
+                    selectedColor = MaterialTheme.colorScheme.primary,
+                    unselectedColor = MaterialTheme.colorScheme.onBackground,
+                ),
         )
         Spacer(modifier = Modifier.width(8.dp))
         Text(text = text, style = MaterialTheme.typography.bodyLarge)

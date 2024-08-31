@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ktlint)
 }
 
 android {
@@ -29,14 +30,14 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
         release {
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -50,13 +51,14 @@ android {
         all { test ->
             with(test) {
                 testLogging {
-                    events = setOf(
-                        org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED,
-                        org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED,
-                        org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED,
-                        org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_OUT,
-                        org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_ERROR,
-                    )
+                    events =
+                        setOf(
+                            org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED,
+                            org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED,
+                            org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED,
+                            org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_OUT,
+                            org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_ERROR,
+                        )
                 }
             }
         }
@@ -140,12 +142,6 @@ dependencies {
     implementation(libs.glide)
 }
 
-//sourceSets {
-//    val test by getting {
-//        java.srcDirs("src/test/java")
-//    }
-//}
-
 tasks.register<Test>("runUnitTests") {
     description = "Runs all unit tests with detailed output"
     group = "verification"
@@ -158,9 +154,17 @@ tasks.register<Test>("runUnitTests") {
     testLogging {
         events("PASSED", "FAILED", "SKIPPED")
         exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL // Show full stack traces
-        showStandardStreams = true  // Print standard output and error streams
+        showStandardStreams = true // Print standard output and error streams
     }
 
     // Optionally: set to stop execution on the first test failure (useful for debugging)
-    failFast = false
+    //  failFast = false
+}
+
+ktlint {
+    version.set("1.3.1")
+    debug.set(true)
+    android.set(true)
+    ignoreFailures.set(false)
+    outputToConsole.set(true)
 }

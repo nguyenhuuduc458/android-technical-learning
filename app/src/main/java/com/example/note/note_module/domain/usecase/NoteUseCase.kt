@@ -1,6 +1,5 @@
 package com.example.note.note_module.domain.usecase
 
-import android.adservices.adid.AdId
 import com.example.note.note_module.domain.model.Note
 import com.example.note.note_module.domain.repository.NoteRepository
 import com.example.note.note_module.domain.util.NoteOrder
@@ -14,9 +13,9 @@ class NoteUseCase(
 ) {
     fun getNotesWithOrder(
         accountId: Int,
-        noteOrder: NoteOrder = NoteOrder.Date(OrderType.Descending)
-    ): Flow<List<Note>> {
-        return noteRepository.getNoteByAccountId(accountId).map { notes ->
+        noteOrder: NoteOrder = NoteOrder.Date(OrderType.Descending),
+    ): Flow<List<Note>> =
+        noteRepository.getNoteByAccountId(accountId).map { notes ->
             when (noteOrder.orderType) {
                 is OrderType.Ascending -> {
                     when (noteOrder) {
@@ -35,7 +34,6 @@ class NoteUseCase(
                 }
             }
         }
-    }
 
     suspend fun deleteNote(note: Note) {
         noteRepository.deleteNote(note)
@@ -45,7 +43,5 @@ class NoteUseCase(
         noteRepository.insertNote(note)
     }
 
-    suspend fun findNoteById(noteId: Int): Note? {
-        return noteRepository.findById(noteId)
-    }
+    suspend fun findNoteById(noteId: Int): Note? = noteRepository.findById(noteId)
 }

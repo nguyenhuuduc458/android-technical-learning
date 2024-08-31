@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NoteDao {
-
     @Query("SELECT * FROM tbl_note WHERE user_id = :accountId")
     fun getNoteByAccountId(accountId: Int): Flow<List<Note>>
 

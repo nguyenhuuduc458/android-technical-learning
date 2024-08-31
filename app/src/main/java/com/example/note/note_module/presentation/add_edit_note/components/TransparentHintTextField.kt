@@ -20,23 +20,24 @@ fun TransparentHintTextField(
     isHintVisible: Boolean = false,
     singleLine: Boolean = false,
     onFocusChange: (FocusState) -> Unit,
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
 ) {
     Box(
-        modifier = modifier
+        modifier = modifier,
     ) {
         BasicTextField(
             value = text,
             onValueChange = onValueChange,
             singleLine = singleLine,
             textStyle = textStyle,
-            modifier = Modifier
-                .fillMaxWidth()
-                .onFocusChanged {
-                    onFocusChange(it)
-                }
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .onFocusChanged {
+                        onFocusChange(it)
+                    },
         )
-        if(isHintVisible) {
+        if (isHintVisible) {
             Text(text = hint, style = textStyle, color = Color.DarkGray)
         }
     }

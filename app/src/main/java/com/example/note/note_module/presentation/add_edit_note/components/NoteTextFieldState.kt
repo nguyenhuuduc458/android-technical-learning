@@ -8,5 +8,5 @@ data class NoteTextFieldState(
     val hint: String = "",
     val isHintVisible: Boolean = false,
     val content: String = "",
-    val color: Int = Note.noteColors.random().toArgb()
+    val color: Int = Note.noteColors.random().toArgb(),
 )

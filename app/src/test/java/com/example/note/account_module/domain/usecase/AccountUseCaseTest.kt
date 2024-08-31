@@ -14,11 +14,8 @@ import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
-import org.junit.FixMethodOrder
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.OrderWith
-import org.junit.runners.MethodSorters
 import org.koin.dsl.module
 import org.koin.test.AutoCloseKoinTest
 import org.koin.test.KoinTestRule
@@ -29,16 +26,16 @@ import org.mockito.kotlin.verify
 
 @ExperimentalCoroutinesApi
 class AccountUseCaseTest : AutoCloseKoinTest() {
-
     private lateinit var accountUseCase: AccountUseCase
     private lateinit var fakeAccountRepository: FakeAccountRepository
     private lateinit var registerViewModel: RegisterViewModel
     private lateinit var loginViewModel: LoginViewModel
 
     @get:Rule
-    val koinTestRule = KoinTestRule.create {
-        modules(testRuleModule)
-    }
+    val koinTestRule =
+        KoinTestRule.create {
+            modules(testRuleModule)
+        }
 
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
@@ -46,15 +43,17 @@ class AccountUseCaseTest : AutoCloseKoinTest() {
     private val sharedPreferences: SharedPreferences by inject()
 
     private val testRuleModule
-        get() = module {
-            single<SharedPreferences> { mockk(relaxed = true) }
-        }
+        get() =
+            module {
+                single<SharedPreferences> { mockk(relaxed = true) }
+            }
 
     @Before
     fun setUp() {
-        fakeAccountRepository = FakeAccountRepository().apply {
-            accounts.add(Account(0, "Kevin", "1234"))
-        }
+        fakeAccountRepository =
+            FakeAccountRepository().apply {
+                accounts.add(Account(0, "Kevin", "1234"))
+            }
         accountUseCase = AccountUseCase(fakeAccountRepository)
         registerViewModel = RegisterViewModel(accountUseCase)
         loginViewModel = LoginViewModel(accountUseCase)

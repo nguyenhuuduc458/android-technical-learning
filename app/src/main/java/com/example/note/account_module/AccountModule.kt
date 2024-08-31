@@ -11,28 +11,32 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val accountModule
-    get() = module {
-        includes(
-            repositoryModule,
-            useCaseModule,
-            viewModelModule
-        )
-    }
+    get() =
+        module {
+            includes(
+                repositoryModule,
+                useCaseModule,
+                viewModelModule,
+            )
+        }
 
 val repositoryModule
-    get() = module {
-        single { Dispatchers.IO }
-        single { get<NoteDatabase>().accountDao() }
-        single<AccountRepository> { AccountRepositoryImpl(get(), get()) }
-    }
+    get() =
+        module {
+            single { Dispatchers.IO }
+            single { get<NoteDatabase>().accountDao() }
+            single<AccountRepository> { AccountRepositoryImpl(get(), get()) }
+        }
 
 val useCaseModule
-    get() = module {
-        single { AccountUseCase(get()) }
-    }
+    get() =
+        module {
+            single { AccountUseCase(get()) }
+        }
 
 val viewModelModule
-    get() = module {
-        viewModel { LoginViewModel(get()) }
-        viewModel { RegisterViewModel(get()) }
-    }
+    get() =
+        module {
+            viewModel { LoginViewModel(get()) }
+            viewModel { RegisterViewModel(get()) }
+        }

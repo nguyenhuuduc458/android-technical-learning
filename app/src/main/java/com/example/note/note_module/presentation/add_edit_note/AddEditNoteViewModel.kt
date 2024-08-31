@@ -1,7 +1,6 @@
 package com.example.note.note_module.presentation.add_edit_note
 
 import androidx.compose.ui.graphics.toArgb
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.note.core.sharepreference.SharePreferenceUtil.currentLoginAccountId
@@ -9,18 +8,13 @@ import com.example.note.note_module.domain.model.Note
 import com.example.note.note_module.domain.usecase.NoteUseCase
 import com.example.note.note_module.presentation.add_edit_note.components.AddEditNoteEvent
 import com.example.note.note_module.presentation.add_edit_note.components.NoteTextFieldState
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import java.util.Date
 
 class AddEditNoteViewModel(
@@ -84,8 +78,8 @@ class AddEditNoteViewModel(
                                 color = _noteColor.value,
                                 userId = currentLoginAccountId,
                                 createdAt = Date(),
-                                noteId = if (currentNoteId == -1) 0  else currentNoteId
-                            )
+                                noteId = if (currentNoteId == -1) 0 else currentNoteId,
+                            ),
                         )
                         _eventFlow.emit(NoteUiEvent.SaveNote)
                     } catch (e: Exception) {
@@ -110,6 +104,9 @@ class AddEditNoteViewModel(
 }
 
 sealed class NoteUiEvent {
-    data class ShowSnackbar(val message: String) : NoteUiEvent()
+    data class ShowSnackbar(
+        val message: String,
+    ) : NoteUiEvent()
+
     object SaveNote : NoteUiEvent()
 }

@@ -31,7 +31,6 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -54,7 +53,7 @@ import org.koin.androidx.compose.koinViewModel
 fun NoteScreen(
     viewModel: NoteViewModel = koinViewModel(),
     onCreateItem: () -> Unit,
-    onEditItem: (Note) -> Unit
+    onEditItem: (Note) -> Unit,
 ) {
     val uiState: NoteState by viewModel.noteState.collectAsState()
     val scope: CoroutineScope = rememberCoroutineScope()
@@ -64,25 +63,26 @@ fun NoteScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { onCreateItem() },
-                contentColor = MaterialTheme.colorScheme.primary
+                contentColor = MaterialTheme.colorScheme.primary,
             ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Create note")
             }
-        }
+        },
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
                     text = "Yours note",
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleMedium,
                 )
                 IconButton(onClick = { viewModel.onEvent(NoteEvent.ToggleOrderSection) }) {
                     Icon(imageVector = Icons.Default.List, contentDescription = "Showing sort view")
@@ -91,37 +91,41 @@ fun NoteScreen(
             AnimatedVisibility(
                 visible = uiState.isOrderSectionVisible,
                 enter = fadeIn() + slideInVertically(),
-                exit = fadeOut() + slideOutVertically()
+                exit = fadeOut() + slideOutVertically(),
             ) {
                 OrderSection(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
                     noteOrder = uiState.noteOrder,
-                    onOrderChange = { viewModel.onEvent(NoteEvent.Order(it)) }
+                    onOrderChange = { viewModel.onEvent(NoteEvent.Order(it)) },
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
             LazyColumn(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
             ) {
                 items(uiState.notes) { note ->
-                    NoteItem(note = note,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                onEditItem(note)
-                            },
+                    NoteItem(
+                        note = note,
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    onEditItem(note)
+                                },
                         onDeleteClick = {
                             viewModel.onEvent(NoteEvent.DeleteNote(note))
                             scope.launch {
-                                val result: SnackbarResult = snackbarHostState
-                                    .showSnackbar(
-                                        message = "Note deleted",
-                                        actionLabel = "Undo",
-                                        // Defaults to SnackbarDuration.Short
-                                        duration = SnackbarDuration.Long
-                                    )
+                                val result: SnackbarResult =
+                                    snackbarHostState
+                                        .showSnackbar(
+                                            message = "Note deleted",
+                                            actionLabel = "Undo",
+                                            // Defaults to SnackbarDuration.Short
+                                            duration = SnackbarDuration.Long,
+                                        )
 
                                 when (result) {
                                     SnackbarResult.ActionPerformed -> {
@@ -133,7 +137,7 @@ fun NoteScreen(
                                     }
                                 }
                             }
-                        }
+                        },
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                 }

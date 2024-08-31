@@ -15,13 +15,15 @@ import java.util.Date
 
 @Entity(
     tableName = "tbl_note",
-    foreignKeys = [ForeignKey(
-        entity = Account::class,
-        parentColumns = ["account_id"],
-        childColumns = ["user_id"],
-        onDelete = ForeignKey.CASCADE
-    )],
-    indices = [Index(value = ["user_id"])]
+    foreignKeys = [
+        ForeignKey(
+            entity = Account::class,
+            parentColumns = ["account_id"],
+            childColumns = ["user_id"],
+            onDelete = ForeignKey.CASCADE,
+        ),
+    ],
+    indices = [Index(value = ["user_id"])],
 )
 data class Note(
     @ColumnInfo(name = "note_id")

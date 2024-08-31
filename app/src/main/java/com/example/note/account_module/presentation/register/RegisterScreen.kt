@@ -42,13 +42,14 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun RegisterScreen(
     onSignIn: () -> Unit = {},
-    viewModel: RegisterViewModel = koinViewModel()
+    viewModel: RegisterViewModel = koinViewModel(),
 ) {
     ConstraintLayout(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(20.dp)
-            .padding(bottom = 10.dp, top = 20.dp)
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(20.dp)
+                .padding(bottom = 10.dp, top = 20.dp),
     ) {
         val (backIcRef, titleRef, inputRef, bottomRef) = createRefs()
         val horizontalGuideline = createGuidelineFromTop(0.70f)
@@ -59,39 +60,44 @@ fun RegisterScreen(
         }
 
         Image(
-            painter = painterResource(id = R.drawable.ic_back), contentDescription = "back button",
-            modifier = Modifier
-                .constrainAs(backIcRef) {
-                    top.linkTo(parent.top)
-                    start.linkTo(parent.start)
-                }
-                .clickable {
-                    onSignIn()
-                }
+            painter = painterResource(id = R.drawable.ic_back),
+            contentDescription = "back button",
+            modifier =
+                Modifier
+                    .constrainAs(backIcRef) {
+                        top.linkTo(parent.top)
+                        start.linkTo(parent.start)
+                    }.clickable {
+                        onSignIn()
+                    },
         )
 
         Text(
-            text = "Create\naccount", style = TextStyle(
-                fontSize = 32.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black
-            ),
-            modifier = Modifier
-                .padding(top = 30.dp)
-                .constrainAs(titleRef) {
-                    start.linkTo(parent.start)
-                    top.linkTo(backIcRef.bottom)
-                }
+            text = "Create\naccount",
+            style =
+                TextStyle(
+                    fontSize = 32.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black,
+                ),
+            modifier =
+                Modifier
+                    .padding(top = 30.dp)
+                    .constrainAs(titleRef) {
+                        start.linkTo(parent.start)
+                        top.linkTo(backIcRef.bottom)
+                    },
         )
 
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .constrainAs(inputRef) {
-                    top.linkTo(titleRef.bottom)
-                    bottom.linkTo(horizontalGuideline)
-                },
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .constrainAs(inputRef) {
+                        top.linkTo(titleRef.bottom)
+                        bottom.linkTo(horizontalGuideline)
+                    },
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             BasicOutlineTextField(
                 modifier = Modifier.fillMaxWidth(),
@@ -116,7 +122,7 @@ fun RegisterScreen(
                 passwordVisible = passwordVisible,
                 toggleClick = { isVisible ->
                     passwordVisible = !isVisible
-                }
+                },
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -133,18 +139,19 @@ fun RegisterScreen(
                 passwordVisible = confirmPasswordVisible,
                 toggleClick = { isVisible ->
                     confirmPasswordVisible = !isVisible
-                }
+                },
             )
         }
 
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .constrainAs(bottomRef) {
-                    bottom.linkTo(parent.bottom)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                }
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .constrainAs(bottomRef) {
+                        bottom.linkTo(parent.bottom)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    },
         ) {
             BasicButton(value = "Create account") {
                 viewModel.register()
@@ -153,7 +160,7 @@ fun RegisterScreen(
             Spacer(modifier = Modifier.height(20.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.Center,
             ) {
                 Text("Already have an account?", fontSize = 20.sp)
                 Spacer(modifier = Modifier.height(20.dp))
@@ -161,15 +168,18 @@ fun RegisterScreen(
                     "Sign in",
                     color = Color(0xFF6875F5),
                     fontSize = 20.sp,
-                    modifier = Modifier.clickable {
-                        onSignIn()
-                    })
+                    modifier =
+                        Modifier.clickable {
+                            onSignIn()
+                        },
+                )
             }
             val context = LocalContext.current
             LaunchedEffect(uiState) {
                 when {
                     uiState.isRegistered -> {
-                        Toast.makeText(context, "Registered successfully", Toast.LENGTH_SHORT)
+                        Toast
+                            .makeText(context, "Registered successfully", Toast.LENGTH_SHORT)
                             .show()
                     }
                     uiState.errorMessage != null -> {
