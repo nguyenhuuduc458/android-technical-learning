@@ -7,7 +7,7 @@ on:
   push:
     branches:
       - developer
-      - master
+      - main
 
 jobs:
   check-kotlin-format:
