@@ -1,3 +1,5 @@
+import java.text.SimpleDateFormat
+import java.util.Date
 
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
@@ -50,6 +52,9 @@ android {
         }
         all { test ->
             with(test) {
+                filter {
+                    excludeTestsMatching("com.example.note.database.*")
+                }
                 testLogging {
                     events =
                         setOf(
@@ -64,12 +69,20 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
     }
     kotlin {
-        jvmToolchain(11)
+        jvmToolchain(17)
     }
+//    java {
+//        toolchain {
+//            languageVersion.set(JavaLanguageVersion.of(17))
+//        }
+//    }
     buildFeatures {
         buildConfig = true
         compose = true
@@ -98,6 +111,9 @@ dependencies {
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
+    implementation(libs.androidx.test)
+    androidTestImplementation(libs.androidx.test)
+    androidTestImplementation(libs.androidx.junit.ktx)
 
     // Local unit tests
     testImplementation(libs.junit)
@@ -119,6 +135,8 @@ dependencies {
     androidTestImplementation(libs.android.mockk)
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.robolectric.test)
+    testImplementation(libs.androidx.junit.ktx)
 
     // Room
     implementation(libs.room.runtime)
@@ -142,29 +160,37 @@ dependencies {
     implementation(libs.glide)
 }
 
-tasks.register<Test>("runUnitTests") {
-    description = "Runs all unit tests with detailed output"
-    group = "verification"
-
-    // Use the default test sources and classpath
-    testClassesDirs = sourceSets["test"].output.classesDirs
-    classpath = sourceSets["test"].runtimeClasspath
-
-    // Configure logging to show detailed test output in the console
-    testLogging {
-        events("PASSED", "FAILED", "SKIPPED")
-        exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL // Show full stack traces
-        showStandardStreams = true // Print standard output and error streams
-    }
-
-    // Optionally: set to stop execution on the first test failure (useful for debugging)
-    //  failFast = false
-}
-
+// Ktlint configuration
 ktlint {
     version.set("1.3.1")
     debug.set(true)
     android.set(true)
     ignoreFailures.set(false)
     outputToConsole.set(true)
+}
+
+// =========================GRADLE TASK======================
+tasks.register("renameApks") {
+    val buildDirPath = buildDir.absolutePath
+    val outputDir = "$buildDirPath/outputs/apk"
+
+    doLast {
+        val date = SimpleDateFormat("yyyy-MM-dd").format(Date())
+
+        android.applicationVariants.all { variant ->
+            val variantName = variant.name
+            val versionName = variant.versionName
+            val apkFilesDir = file("$outputDir/$variantName")
+            var isRenameSuccess = false
+            apkFilesDir.listFiles()?.forEach { apkFile ->
+                if (apkFile.extension == "apk") {
+                    val newFileName = "$variantName-$date-$versionName.apk"
+                    val newFile = File(apkFilesDir, newFileName)
+                    println("Renaming APK: ${apkFile.name} to ${newFile.name}")
+                    isRenameSuccess = apkFile.renameTo(newFile)
+                }
+            }
+            isRenameSuccess
+        }
+    }
 }

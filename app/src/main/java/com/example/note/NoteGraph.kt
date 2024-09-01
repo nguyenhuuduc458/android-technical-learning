@@ -3,11 +3,9 @@ package com.example.note
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.note.account_module.presentation.login.LoginScreen
@@ -25,8 +23,6 @@ fun NoteGraph(
             NoteGraphNavigationActions(navController)
         },
 ) {
-    val currentNavBackStackEntry: NavBackStackEntry? by navController.currentBackStackEntryAsState()
-
     NavHost(navController = navController, startDestination = startDestination) {
         composable<LoginRoute> {
             LoginScreen(
