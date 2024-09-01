@@ -12,5 +12,5 @@ data class Account(
     @ColumnInfo(name = "username")
     val username: String,
     @ColumnInfo(name = "password")
-    val password: String
+    val password: String,
 )

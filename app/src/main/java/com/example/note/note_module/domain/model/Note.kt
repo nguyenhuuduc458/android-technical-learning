@@ -15,20 +15,22 @@ import java.util.Date
 
 @Entity(
     tableName = "tbl_note",
-    foreignKeys = [ForeignKey(
-        entity = Account::class,
-        parentColumns = ["account_id"],
-        childColumns = ["user_id"],
-        onDelete = ForeignKey.CASCADE
-    )],
-    indices = [Index(value = ["user_id"])]
+    foreignKeys = [
+        ForeignKey(
+            entity = Account::class,
+            parentColumns = ["account_id"],
+            childColumns = ["user_id"],
+            onDelete = ForeignKey.CASCADE,
+        ),
+    ],
+    indices = [Index(value = ["user_id"])],
 )
 data class Note(
     @ColumnInfo(name = "note_id")
     @PrimaryKey(autoGenerate = true)
     val noteId: Int = 0,
     @ColumnInfo(name = "user_id")
-    val userId: Long,
+    val userId: Int,
     @ColumnInfo(name = "title")
     val title: String,
     @ColumnInfo(name = "description")

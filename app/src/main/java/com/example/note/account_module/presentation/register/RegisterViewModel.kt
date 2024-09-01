@@ -18,13 +18,17 @@ data class RegisterUiState(
 )
 
 class RegisterViewModel(
-    private val accountUseCase: AccountUseCase
+    private val accountUseCase: AccountUseCase,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(RegisterUiState())
     val uiState: StateFlow<RegisterUiState>
         get() = _uiState
 
-    private fun validateUsernamePassword(username: String, password: String, confirmPassword: String): Boolean {
+    private fun validateUsernamePassword(
+        username: String,
+        password: String,
+        confirmPassword: String,
+    ): Boolean {
         if (username.isEmpty()) {
             showRegisterError("Username cannot be empty")
             return false
@@ -52,7 +56,6 @@ class RegisterViewModel(
             return false
         }
 
-
         return true
     }
 
@@ -71,7 +74,7 @@ class RegisterViewModel(
                 return@launch
             }
             accountUseCase.register(username, password)
-            _uiState.update { it.copy(isRegistering = false, isRegistered = true, errorMessage = null ) }
+            _uiState.update { it.copy(isRegistering = false, isRegistered = true, errorMessage = null) }
         }
     }
 

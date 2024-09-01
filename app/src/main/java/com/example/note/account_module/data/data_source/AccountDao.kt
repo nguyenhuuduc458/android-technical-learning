@@ -14,7 +14,10 @@ interface AccountDao {
     suspend fun register(account: Account)
 
     @Query("SELECT * FROM tbl_account WHERE username = :username AND password = :password")
-    suspend fun login(username: String, password: String): Account?
+    suspend fun login(
+        username: String,
+        password: String,
+    ): Account?
 
     @Transaction
     suspend fun deleteAccountAndNote(account: Account) {

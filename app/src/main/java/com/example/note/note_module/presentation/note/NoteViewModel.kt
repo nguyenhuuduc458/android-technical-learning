@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class NoteViewModel(
-    private val noteUseCase: NoteUseCase
+    private val noteUseCase: NoteUseCase,
 ) : ViewModel() {
     private val _noteState = MutableStateFlow(NoteState())
     val noteState: StateFlow<NoteState> get() = _noteState.asStateFlow()
@@ -43,7 +43,6 @@ class NoteViewModel(
             }
 
             is NoteEvent.InsertNote -> {
-
             }
 
             is NoteEvent.Order -> {
@@ -63,7 +62,7 @@ class NoteViewModel(
                 viewModelScope.launch {
                     _noteState.update {
                         it.copy(
-                            isOrderSectionVisible = !it.isOrderSectionVisible
+                            isOrderSectionVisible = !it.isOrderSectionVisible,
                         )
                     }
                 }
@@ -74,16 +73,16 @@ class NoteViewModel(
     private fun getNote(noteOrder: NoteOrder) {
         check(currentLoginAccountId > 0) { "Account id must be greater than 0" }
         getNoteJob?.cancel()
-        getNoteJob = noteUseCase.getNotesWithOrder(currentLoginAccountId, noteOrder)
-            .onStart {
-                println("start get note")
-            }
-            .onEach { notes ->
-                _noteState.update {
-                    it.copy(notes = notes, noteOrder = noteOrder)
-                }
-            }.catch {
-
-            }.launchIn(viewModelScope)
+        getNoteJob =
+            noteUseCase
+                .getNotesWithOrder(currentLoginAccountId, noteOrder)
+                .onStart {
+                    println("start get note")
+                }.onEach { notes ->
+                    _noteState.update {
+                        it.copy(notes = notes, noteOrder = noteOrder)
+                    }
+                }.catch {
+                }.launchIn(viewModelScope)
     }
 }

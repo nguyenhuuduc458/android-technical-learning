@@ -13,7 +13,14 @@ object RegisterRoute
 @Serializable
 object NoteRoute
 
-class NoteGraphNavigationActions(private val navController: NavHostController) {
+@Serializable
+data class AddEditNoteRoute(
+    val noteId: Int = -1,
+)
+
+class NoteGraphNavigationActions(
+    private val navController: NavHostController,
+) {
     fun navigateToLogin() {
         navController.navigate(route = LoginRoute) {
             popUpTo(navController.graph.startDestinationId) {
@@ -42,6 +49,10 @@ class NoteGraphNavigationActions(private val navController: NavHostController) {
     }
 
     fun onBackPressed() {
-        navController.popBackStack()
+        navController.navigateUp()
+    }
+
+    fun navigateToAddEditScreen(noteId: Int = -1) {
+        navController.navigate(route = AddEditNoteRoute(noteId))
     }
 }
