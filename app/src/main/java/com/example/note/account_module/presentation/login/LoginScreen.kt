@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -38,7 +37,6 @@ import com.example.note.core.compose.BasicOutlineTextField
 import com.example.note.ui.theme.customColor
 import org.koin.androidx.compose.koinViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     onSignUp: () -> Unit = {},
@@ -47,44 +45,51 @@ fun LoginScreen(
 ) {
     val uiState: LoginUiState by viewModel.uiState.collectAsState()
     ConstraintLayout(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(20.dp)
-            .padding(bottom = 10.dp, top = 20.dp)
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(20.dp)
+                .padding(bottom = 10.dp, top = 20.dp),
     ) {
         val (logoRef, titleRef, inputRef, bottomRef) = createRefs()
         val horizontalGuideline = createGuidelineFromTop(0.70f)
         Image(
-            painter = painterResource(id = R.drawable.logo), contentDescription = "logo",
-            modifier = Modifier.constrainAs(logoRef) {
-                top.linkTo(parent.top)
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-            }
+            painter = painterResource(id = R.drawable.logo),
+            contentDescription = "logo",
+            modifier =
+                Modifier.constrainAs(logoRef) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                },
         )
 
         Text(
-            text = "Welcome\nBack", style = TextStyle(
-                fontSize = 32.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black
-            ),
-            modifier = Modifier
-                .padding(top = 30.dp)
-                .constrainAs(titleRef) {
-                    start.linkTo(parent.start)
-                    top.linkTo(logoRef.bottom)
-                }
+            text = "Welcome\nBack",
+            style =
+                TextStyle(
+                    fontSize = 32.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black,
+                ),
+            modifier =
+                Modifier
+                    .padding(top = 30.dp)
+                    .constrainAs(titleRef) {
+                        start.linkTo(parent.start)
+                        top.linkTo(logoRef.bottom)
+                    },
         )
 
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .constrainAs(inputRef) {
-                    top.linkTo(titleRef.bottom)
-                    bottom.linkTo(horizontalGuideline)
-                },
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .constrainAs(inputRef) {
+                        top.linkTo(titleRef.bottom)
+                        bottom.linkTo(horizontalGuideline)
+                    },
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             BasicOutlineTextField(
                 modifier = Modifier.fillMaxWidth(),
@@ -109,18 +114,19 @@ fun LoginScreen(
                 toggleClick = { isVisible ->
                     passwordVisible = !isVisible
                 },
-                onDone = { viewModel.login() }
+                onDone = { viewModel.login() },
             )
         }
 
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .constrainAs(bottomRef) {
-                    bottom.linkTo(parent.bottom)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                }
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .constrainAs(bottomRef) {
+                        bottom.linkTo(parent.bottom)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    },
         ) {
             BasicButton(value = "Login") {
                 viewModel.login()
@@ -128,7 +134,7 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(20.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.Center,
             ) {
                 Text("Don't have an account?", fontSize = 20.sp)
                 Spacer(modifier = Modifier.height(20.dp))
@@ -136,9 +142,11 @@ fun LoginScreen(
                     "Sign up",
                     color = customColor,
                     fontSize = 20.sp,
-                    modifier = Modifier.clickable {
-                        onSignUp()
-                    })
+                    modifier =
+                        Modifier.clickable {
+                            onSignUp()
+                        },
+                )
             }
         }
         val context = LocalContext.current

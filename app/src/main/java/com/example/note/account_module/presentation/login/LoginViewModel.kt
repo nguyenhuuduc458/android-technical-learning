@@ -17,13 +17,13 @@ data class LoginUiState(
     val password: String = "",
     val isLoggingIn: Boolean = false,
     val errorMessage: String? = null,
-    val isLoggedIn: Boolean = false
+    val isLoggedIn: Boolean = false,
 )
 
 class LoginViewModel(
-    private val accountUseCase: AccountUseCase
-) : ViewModel(), KoinComponent {
-
+    private val accountUseCase: AccountUseCase,
+) : ViewModel(),
+    KoinComponent {
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState>
         get() = _uiState.asStateFlow()
@@ -70,11 +70,13 @@ class LoginViewModel(
         _uiState.update { it.copy(password = password, errorMessage = null) }
     }
 
-    private fun isInputValid(username: String, password: String): Boolean {
+    private fun isInputValid(
+        username: String,
+        password: String,
+    ): Boolean {
         if (username.isBlank() || password.isBlank()) {
             return false
         }
         return true
     }
-
 }

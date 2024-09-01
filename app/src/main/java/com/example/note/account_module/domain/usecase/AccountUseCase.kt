@@ -4,13 +4,17 @@ import com.example.note.account_module.domain.model.Account
 import com.example.note.account_module.domain.repository.AccountRepository
 
 class AccountUseCase(
-    private val accountRepository: AccountRepository
+    private val accountRepository: AccountRepository,
 ) {
-    suspend fun login(username: String, password: String): Account? {
-        return accountRepository.login(username, password)
-    }
+    suspend fun login(
+        username: String,
+        password: String,
+    ): Account? = accountRepository.login(username, password)
 
-    suspend fun register(username: String, password: String) {
+    suspend fun register(
+        username: String,
+        password: String,
+    ) {
         accountRepository.register(username, password)
     }
 
@@ -18,7 +22,5 @@ class AccountUseCase(
         accountRepository.deleteAccountAndNote(account)
     }
 
-    suspend fun isExistAccount(username: String): Boolean {
-        return accountRepository.isExistAccount(username)
-    }
+    suspend fun isExistAccount(username: String): Boolean = accountRepository.isExistAccount(username)
 }

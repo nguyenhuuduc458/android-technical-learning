@@ -8,7 +8,7 @@ data class AccountWithNotes(
     @Embedded val account: Account,
     @Relation(
         parentColumn = "accountId",
-        entityColumn = "accountCreatorId"
+        entityColumn = "accountCreatorId",
     )
-    val notes: List<Note>
+    val notes: List<Note>,
 )
