@@ -85,13 +85,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
       - name: Expose app version name
-        run: echo "VERSION_NAME=$( ./gradlew -q app:printVersionName )" >> $GITHUB_ENV
+        id: get_version_name
+        run: echo "VERSION_NAME=$(./gradlew -q app:printVersionName | tr -d '\r')" >> $GITHUB_ENV
 
       - name: Create a new tag
         run: |
-          TAG_NAME="release-$(date +'%Y-%m-%d')-${env.VERSION_NAME}"
+          echo "Version Name is: $VERSION_NAME"
+          TAG_NAME="release-$(date +'%Y-%m-%d')-${VERSION_NAME}"
           git tag $TAG_NAME
           git push origin $TAG_NAME
         env:
+          VERSION_NAME: ${{ env.VERSION_NAME }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
