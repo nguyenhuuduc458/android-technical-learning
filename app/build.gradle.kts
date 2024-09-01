@@ -78,11 +78,6 @@ android {
     kotlin {
         jvmToolchain(17)
     }
-//    java {
-//        toolchain {
-//            languageVersion.set(JavaLanguageVersion.of(17))
-//        }
-//    }
     buildFeatures {
         buildConfig = true
         compose = true
@@ -171,7 +166,10 @@ ktlint {
 
 // =========================GRADLE TASK======================
 tasks.register("renameApks") {
-    val buildDirPath = buildDir.absolutePath
+    val buildDirPath =
+        layout.buildDirectory.asFile
+            .get()
+            .absolutePath
     val outputDir = "$buildDirPath/outputs/apk"
 
     doLast {
@@ -193,4 +191,8 @@ tasks.register("renameApks") {
             isRenameSuccess
         }
     }
+}
+
+tasks.register("printVersionName") {
+    println(android.defaultConfig.versionName)
 }
