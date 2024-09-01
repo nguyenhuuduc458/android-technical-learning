@@ -85,9 +85,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Expose app version name
+        run: echo "VERSION_NAME=$( ./gradlew -q app:printVersionName )" >> $GITHUB_ENV
+
       - name: Create a new tag
         run: |
-          TAG_NAME="release-$(date +'%Y-%m-%d')"
+          TAG_NAME="release-$(date +'%Y-%m-%d')-${{env.VERSION_NAME}}"
           git tag $TAG_NAME
           git push origin $TAG_NAME
         env:
