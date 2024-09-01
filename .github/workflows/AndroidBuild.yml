@@ -88,6 +88,12 @@ jobs:
       - name: Expose app version name
         run: echo "VERSION_NAME=$( ./gradlew -q app:printVersionName )" >> $GITHUB_ENV
 
+      - name: Log the Version Name
+        run: |
+          echo "Version Name is: $VERSION_NAME"
+        env:
+          VERSION_NAME: ${{ env.VERSION_NAME }}
+
       - name: Create a new tag
         run: |
           TAG_NAME="release-$(date +'%Y-%m-%d')-${VERSION_NAME}"
