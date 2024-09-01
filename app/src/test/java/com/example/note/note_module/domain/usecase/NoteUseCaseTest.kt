@@ -136,7 +136,7 @@ class NoteUseCaseTest {
                 Note(
                     noteId = 15,
                     userId = kevinId,
-                    title = "",
+                    title = "Title",
                     description = "Description",
                     createdAt = Date(),
                     color = 1,
