@@ -90,7 +90,7 @@ jobs:
 
       - name: Create a new tag
         run: |
-          TAG_NAME="release-$(date +'%Y-%m-%d')-${{env.VERSION_NAME}}"
+          TAG_NAME="release-$(date +'%Y-%m-%d')-${env.VERSION_NAME}"
           git tag $TAG_NAME
           git push origin $TAG_NAME
         env:
