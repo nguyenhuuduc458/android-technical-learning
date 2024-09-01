@@ -4,11 +4,11 @@ Welcome to the Android Technical Learning project! This repository is a personal
 ## Clean architecture with 3 main modules
 - Data (for database, API and preferences code)
 - Domain (for business logic and models)
-- AndroidApp (for UI logic, with MVVM)
+- Presenter (for UI logic, with MVVM)
 
 ## Tests
 - [Mockk](https://mockk.io/) library
-- Unit tests[JUnit4](https://junit.org/junit4/)
+- Unit tests [JUnit4](https://junit.org/junit4/)
 - Mockito
 - Robolectric
 
@@ -21,9 +21,9 @@ Welcome to the Android Technical Learning project! This repository is a personal
 - Android architecture components to share ViewModels during configuration changes
 - Google [Material Design](https://material.io/blog/android-material-theme-color) library
 - Declarative UI (with [Jetpack Compose](https://developer.android.com/jetpack/compose))
-    - Compose Navigation (with [Hilt Support](https://developer.android.com/jetpack/compose/libraries#hilt-navigation) and Assisted Inject Example)
-- Code style checking[Ktlint](https://github.com/pinterest/ktlint)
-- Image loading[glide](https://github.com/bumptech/glide)
+    - Compose Navigation (with [Koin Support](https://insert-koin.io/docs/quickstart/android-compose/)
+- Code style checking (with [Ktlint](https://github.com/pinterest/ktlint))
+- Image loading (with [glide](https://github.com/bumptech/glide))
 - Edge To Edge Configuration
 
 # Getting started
