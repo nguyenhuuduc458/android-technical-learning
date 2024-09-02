@@ -18,8 +18,8 @@ class NoteRepositoryImpl
         override fun getNoteByAccountId(accountId: Int): Flow<List<Note>> = noteDao.getNoteByAccountId(accountId)
 
         override suspend fun insertNote(note: Note) {
-            check(note.title.isBlank()) { "Title is not null or empty" }
-            check(note.title.isBlank()) { "Description is not null or empty" }
+            check(note.title.isNotBlank()) { "Title is not null or empty" }
+            check(note.description.isNotBlank()) { "Description is not null or empty" }
             withContext(defaultDispatcher) {
                 noteDao.insertNote(note)
             }

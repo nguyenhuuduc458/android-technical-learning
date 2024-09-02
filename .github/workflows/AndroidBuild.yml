@@ -7,16 +7,17 @@ on:
   pull_request:
     branches:
       - developer
+      - main
+
   push:
     branches:
-      - developer
       - main
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
-  run-code-style-check:
+  check-code-style:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -34,7 +35,7 @@ jobs:
 
   run-unit-tests:
     runs-on: ubuntu-latest
-    needs: run-code-style-check
+    needs: check-code-style
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

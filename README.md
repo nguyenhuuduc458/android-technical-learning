@@ -23,7 +23,6 @@ Welcome to the Android Technical Learning project! This repository is a personal
 - Declarative UI (with [Jetpack Compose](https://developer.android.com/jetpack/compose))
     - Compose Navigation (with [Koin Support](https://insert-koin.io/docs/quickstart/android-compose/)
 - Code style checking (with [Ktlint](https://github.com/pinterest/ktlint))
-- Image loading (with [glide](https://github.com/bumptech/glide))
 - Edge To Edge Configuration
 
 # Getting started

@@ -130,21 +130,20 @@ class NoteUseCaseTest {
     }
 
     @Test
-    fun `Insert note successfully`() {
-        val note =
-            Note(
-                noteId = 15,
-                userId = kevinId,
-                title = "Title",
-                description = "Description",
-                createdAt = Date(),
-                color = 1,
-            )
+    fun `Insert note successfully`() =
         runBlocking {
+            val note =
+                Note(
+                    noteId = 15,
+                    userId = kevinId,
+                    title = "Title",
+                    description = "Description",
+                    createdAt = Date(),
+                    color = 1,
+                )
             noteUseCase.insertNote(note)
             assertThat(fakeNoteRepository.notes.contains(note)).isTrue()
         }
-    }
 
     @Test
     fun `Failed to insert note due to blank title or description`() =
