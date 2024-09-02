@@ -3,9 +3,9 @@ package com.example.note.database
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.note.NoteDatabase
 import com.example.note.account_module.data.data_source.AccountDao
 import com.example.note.account_module.domain.model.Account
+import com.example.note.core.database.NoteDatabase
 import com.example.note.di.MainCoroutineRule
 import com.example.note.note_module.data.data_source.NoteDao
 import com.google.common.truth.Truth.assertThat

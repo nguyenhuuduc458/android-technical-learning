@@ -1,11 +1,11 @@
 package com.example.note.account_module
 
-import com.example.note.NoteDatabase
 import com.example.note.account_module.data.repository.AccountRepositoryImpl
 import com.example.note.account_module.domain.repository.AccountRepository
 import com.example.note.account_module.domain.usecase.AccountUseCase
 import com.example.note.account_module.presentation.login.LoginViewModel
 import com.example.note.account_module.presentation.register.RegisterViewModel
+import com.example.note.core.database.NoteDatabase
 import kotlinx.coroutines.Dispatchers
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module

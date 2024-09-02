@@ -1,4 +1,4 @@
-package com.example.note
+package com.example.note.core.navigation
 
 import androidx.navigation.NavHostController
 import kotlinx.serialization.Serializable

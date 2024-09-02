@@ -1,6 +1,6 @@
 package com.example.note.note_module
 
-import com.example.note.NoteDatabase
+import com.example.note.core.database.NoteDatabase
 import com.example.note.note_module.data.repository.NoteRepositoryImpl
 import com.example.note.note_module.domain.repository.NoteRepository
 import com.example.note.note_module.domain.usecase.NoteUseCase

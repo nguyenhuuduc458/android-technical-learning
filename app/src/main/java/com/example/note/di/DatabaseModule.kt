@@ -2,7 +2,7 @@ package com.example.note.di
 
 import android.app.Application
 import androidx.room.Room
-import com.example.note.NoteDatabase
+import com.example.note.core.database.NoteDatabase
 import org.koin.dsl.module
 
 val databaseModule =
