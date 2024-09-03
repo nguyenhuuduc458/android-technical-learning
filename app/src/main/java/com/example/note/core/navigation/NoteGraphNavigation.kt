@@ -18,6 +18,9 @@ data class AddEditNoteRoute(
     val noteId: Int = -1,
 )
 
+@Serializable
+object SpotifyLoginRoute
+
 class NoteGraphNavigationActions(
     private val navController: NavHostController,
 ) {

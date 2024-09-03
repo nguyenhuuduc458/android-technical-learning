@@ -9,32 +9,28 @@ import com.example.note.note_module.presentation.note.NoteViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-val noteModule
-    get() =
-        module {
-            includes(
-                noteRepositoryModule,
-                useCaseModule,
-                noteViewModelModule,
-            )
-        }
+val noteModule get() =
+    module {
+        includes(
+            noteRepositoryModule,
+            useCaseModule,
+            noteViewModelModule,
+        )
+    }
 
-val noteRepositoryModule
-    get() =
-        module {
-            single { get<NoteDatabase>().noteDao() }
-            single<NoteRepository> { NoteRepositoryImpl(get()) }
-        }
+val noteRepositoryModule get() =
+    module {
+        single { get<NoteDatabase>().noteDao() }
+        single<NoteRepository> { NoteRepositoryImpl(get()) }
+    }
 
-val useCaseModule
-    get() =
-        module {
-            single { NoteUseCase(get()) }
-        }
+val useCaseModule get() =
+    module {
+        single { NoteUseCase(get()) }
+    }
 
-val noteViewModelModule
-    get() =
-        module {
-            viewModel { NoteViewModel(get()) }
-            viewModel { AddEditNoteViewModel(get()) }
-        }
+val noteViewModelModule get() =
+    module {
+        viewModel { NoteViewModel(get()) }
+        viewModel { AddEditNoteViewModel(get()) }
+    }

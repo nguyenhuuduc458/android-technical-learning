@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.koin.core.component.KoinComponent
 
 data class LoginUiState(
     val username: String = "",
@@ -22,8 +21,7 @@ data class LoginUiState(
 
 class LoginViewModel(
     private val accountUseCase: AccountUseCase,
-) : ViewModel(),
-    KoinComponent {
+) : ViewModel() {
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState>
         get() = _uiState.asStateFlow()
@@ -73,10 +71,5 @@ class LoginViewModel(
     private fun isInputValid(
         username: String,
         password: String,
-    ): Boolean {
-        if (username.isBlank() || password.isBlank()) {
-            return false
-        }
-        return true
-    }
+    ): Boolean = !(username.isBlank() || password.isBlank())
 }

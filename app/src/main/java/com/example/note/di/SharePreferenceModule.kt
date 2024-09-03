@@ -11,7 +11,10 @@ val sharedPreferences
         module {
             // this preference is used to store small data
             single<SharedPreferences> {
-                androidContext().getSharedPreferences("note_shared_preference", Context.MODE_PRIVATE)
+                androidContext().getSharedPreferences(
+                    "note_shared_preference",
+                    Context.MODE_PRIVATE,
+                )
             }
 
             // this preference is used to store secure data and small

@@ -9,14 +9,15 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.note.account_module.presentation.login.LoginScreen
 import com.example.note.account_module.presentation.register.RegisterScreen
-import com.example.note.core.sharepreference.SharePreferenceUtil.currentLoginAccountId
 import com.example.note.note_module.presentation.add_edit_note.AddEditNoteScreen
 import com.example.note.note_module.presentation.note.NoteScreen
+import com.example.note.spotify_module.presenter.login.SignInScreen
 
 @Composable
 fun NoteGraph(
     navController: NavHostController = rememberNavController(),
-    startDestination: Any = if (currentLoginAccountId != -1) NoteRoute else LoginRoute,
+//    startDestination: Any = if (currentLoginAccountId != -1) NoteRoute else LoginRoute,
+    startDestination: Any = SpotifyLoginRoute,
     navActions: NoteGraphNavigationActions =
         remember(navController) {
             NoteGraphNavigationActions(navController)
@@ -47,6 +48,9 @@ fun NoteGraph(
                 noteId = route.noteId,
                 onBackPress = { navActions.onBackPressed() },
             )
+        }
+        composable<SpotifyLoginRoute> {
+            SignInScreen()
         }
     }
 }

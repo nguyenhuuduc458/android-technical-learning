@@ -171,9 +171,14 @@ dependencies {
     // retrofit
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
+    implementation(libs.logging.interceptor)
 
     // glide
     implementation(libs.glide)
+
+    // spotify android sdk
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar"))))
+//    implementation(libs.spotify.android.auth.sdk)
 }
 
 // Ktlint configuration
