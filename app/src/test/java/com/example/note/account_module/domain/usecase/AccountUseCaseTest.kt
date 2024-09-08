@@ -12,7 +12,7 @@ import com.google.common.truth.Truth.assertThat
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -97,20 +97,19 @@ class AccountUseCaseTest : AutoCloseKoinTest() {
     }
 
     @Test
-    fun `test invalid login input`() {
-        loginViewModel.apply {
-            enterUsername("")
-            enterPassword("")
-        }
-        val spyAccountUseCase = spy(accountUseCase)
-        loginViewModel.login()
+    fun `test invalid login input`() =
+        runTest {
+            loginViewModel.apply {
+                enterUsername("")
+                enterPassword("")
+            }
+            val spyAccountUseCase = spy(accountUseCase)
+            loginViewModel.login()
 
-        assertThat(loginViewModel.uiState.value.errorMessage).isEqualTo("Username or password is not empty")
+            assertThat(loginViewModel.uiState.value.errorMessage).isEqualTo("Username or password is not empty")
 
-        runBlocking {
             verify(spyAccountUseCase, never()).login("", "")
         }
-    }
 
     @Test
     fun `test register successfully`() {
@@ -156,72 +155,12 @@ class AccountUseCaseTest : AutoCloseKoinTest() {
     }
 
     @Test
-    fun `test show error when blank username`() {
-        registerViewModel.apply {
-            enterUsername("")
-            enterPassword("password")
-            enterConfirmPassword("password")
-        }
-
-        registerViewModel.register()
-
-        val spyRegisterViewModel: AccountUseCase = spy(accountUseCase)
-        val uiState: RegisterUiState = registerViewModel.uiState.value
-
-        assertThat(uiState.errorMessage).isEqualTo("Username cannot be empty")
-        assertThat(uiState.isRegistered).isEqualTo(false)
-        runBlocking {
-            verify(spyRegisterViewModel, never()).register("", "password")
-        }
-    }
-
-    @Test
-    fun `test show error when invalid username`() {
-        registerViewModel.apply {
-            enterUsername("use")
-            enterPassword("password")
-            enterConfirmPassword("password")
-        }
-
-        registerViewModel.register()
-
-        val spyRegisterViewModel: AccountUseCase = spy(accountUseCase)
-        val uiState: RegisterUiState = registerViewModel.uiState.value
-
-        assertThat(uiState.errorMessage).isEqualTo("Username must be at least 4 characters long")
-        assertThat(uiState.isRegistered).isEqualTo(false)
-        runBlocking {
-            verify(spyRegisterViewModel, never()).register("use", "password")
-        }
-    }
-
-    @Test
-    fun `test show error when blank password`() {
-        registerViewModel.apply {
-            enterUsername("username")
-            enterPassword("")
-        }
-
-        registerViewModel.register()
-
-        val spyRegisterViewModel: AccountUseCase = spy(accountUseCase)
-        val uiState: RegisterUiState = registerViewModel.uiState.value
-
-        assertThat(uiState.errorMessage).isEqualTo("Password cannot be empty")
-        assertThat(uiState.isRegistered).isEqualTo(false)
-        runBlocking {
-            verify(spyRegisterViewModel, never()).register("username", "")
-        }
-    }
-
-    @Test
-    fun `test show error when invalid password`() {
-        val listOfInvalidPassword: List<String> = listOf("123", "pass", "passwrd")
-        listOfInvalidPassword.forEach {
+    fun `test show error when blank username`() =
+        runTest {
             registerViewModel.apply {
-                enterUsername("username")
-                enterPassword(it)
-                enterConfirmPassword(it)
+                enterUsername("")
+                enterPassword("password")
+                enterConfirmPassword("password")
             }
 
             registerViewModel.register()
@@ -229,31 +168,88 @@ class AccountUseCaseTest : AutoCloseKoinTest() {
             val spyRegisterViewModel: AccountUseCase = spy(accountUseCase)
             val uiState: RegisterUiState = registerViewModel.uiState.value
 
-            assertThat(uiState.errorMessage).isEqualTo("Password must be at least 8 characters long and contain both letters and numbers")
+            assertThat(uiState.errorMessage).isEqualTo("Username cannot be empty")
             assertThat(uiState.isRegistered).isEqualTo(false)
-            runBlocking {
+            verify(spyRegisterViewModel, never()).register("", "password")
+        }
+
+    @Test
+    fun `test show error when invalid username`() =
+        runTest {
+            registerViewModel.apply {
+                enterUsername("use")
+                enterPassword("password")
+                enterConfirmPassword("password")
+            }
+
+            registerViewModel.register()
+
+            val spyRegisterViewModel: AccountUseCase = spy(accountUseCase)
+            val uiState: RegisterUiState = registerViewModel.uiState.value
+
+            assertThat(uiState.errorMessage).isEqualTo("Username must be at least 4 characters long")
+            assertThat(uiState.isRegistered).isEqualTo(false)
+            verify(spyRegisterViewModel, never()).register("use", "password")
+        }
+
+    @Test
+    fun `test show error when blank password`() =
+        runTest {
+            registerViewModel.apply {
+                enterUsername("username")
+                enterPassword("")
+            }
+
+            registerViewModel.register()
+
+            val spyRegisterViewModel: AccountUseCase = spy(accountUseCase)
+            val uiState: RegisterUiState = registerViewModel.uiState.value
+
+            assertThat(uiState.errorMessage).isEqualTo("Password cannot be empty")
+            assertThat(uiState.isRegistered).isEqualTo(false)
+            verify(spyRegisterViewModel, never()).register("username", "")
+        }
+
+    @Test
+    fun `test show error when invalid password`() =
+        runTest {
+            val listOfInvalidPassword: List<String> = listOf("123", "pass", "passwrd")
+            listOfInvalidPassword.forEach {
+                registerViewModel.apply {
+                    enterUsername("username")
+                    enterPassword(it)
+                    enterConfirmPassword(it)
+                }
+
+                registerViewModel.register()
+
+                val spyRegisterViewModel: AccountUseCase = spy(accountUseCase)
+                val uiState: RegisterUiState = registerViewModel.uiState.value
+
+                assertThat(
+                    uiState.errorMessage,
+                ).isEqualTo("Password must be at least 8 characters long and contain both letters and numbers")
+                assertThat(uiState.isRegistered).isEqualTo(false)
                 verify(spyRegisterViewModel, never()).register("username", it)
             }
         }
-    }
 
     @Test
-    fun `test show error when mismatch between password and confirm password`() {
-        registerViewModel.apply {
-            enterUsername("username")
-            enterPassword("Nhd1999@")
-            enterConfirmPassword("Nhd1998@")
-        }
+    fun `test show error when mismatch between password and confirm password`() =
+        runTest {
+            registerViewModel.apply {
+                enterUsername("username")
+                enterPassword("Nhd1999@")
+                enterConfirmPassword("Nhd1998@")
+            }
 
-        registerViewModel.register()
+            registerViewModel.register()
 
-        val spyRegisterViewModel: AccountUseCase = spy(accountUseCase)
-        val uiState: RegisterUiState = registerViewModel.uiState.value
+            val spyRegisterViewModel: AccountUseCase = spy(accountUseCase)
+            val uiState: RegisterUiState = registerViewModel.uiState.value
 
-        assertThat(uiState.errorMessage).isEqualTo("Password and confirm password miss matching")
-        assertThat(uiState.isRegistered).isEqualTo(false)
-        runBlocking {
+            assertThat(uiState.errorMessage).isEqualTo("Password and confirm password miss matching")
+            assertThat(uiState.isRegistered).isEqualTo(false)
             verify(spyRegisterViewModel, never()).register("username", "password")
         }
-    }
 }

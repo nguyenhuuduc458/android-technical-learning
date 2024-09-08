@@ -3,6 +3,10 @@ package com.example.note.core.cryptographic
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.util.Base64
+import androidx.test.core.app.ActivityScenario.launch
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import java.security.KeyPairGenerator
 import java.security.KeyStore
 import javax.crypto.Cipher
@@ -71,4 +75,11 @@ object KeyStoreUtil {
         val decryptedData = cipher.doFinal(decodedData)
         return String(decryptedData, Charsets.UTF_8)
     }
+
+    suspend fun tam() =
+        coroutineScope {
+            val lazyJob =
+                launch(start = CoroutineStart.LAZY) {
+                }
+        }
 }

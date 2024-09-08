@@ -11,13 +11,13 @@ import com.example.note.account_module.presentation.login.LoginScreen
 import com.example.note.account_module.presentation.register.RegisterScreen
 import com.example.note.note_module.presentation.add_edit_note.AddEditNoteScreen
 import com.example.note.note_module.presentation.note.NoteScreen
-import com.example.note.spotify_module.presenter.login.SignInScreen
+import com.example.note.spotify_module.presenter.start.StartScreen
 
 @Composable
 fun NoteGraph(
     navController: NavHostController = rememberNavController(),
 //    startDestination: Any = if (currentLoginAccountId != -1) NoteRoute else LoginRoute,
-    startDestination: Any = SpotifyLoginRoute,
+    startDestination: Any = StartRoute,
     navActions: NoteGraphNavigationActions =
         remember(navController) {
             NoteGraphNavigationActions(navController)
@@ -49,8 +49,8 @@ fun NoteGraph(
                 onBackPress = { navActions.onBackPressed() },
             )
         }
-        composable<SpotifyLoginRoute> {
-            SignInScreen()
+        composable<StartRoute> {
+            StartScreen()
         }
     }
 }
