@@ -1,5 +1,6 @@
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Properties
 
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
@@ -25,6 +26,26 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+    }
+
+    // Read local properties file
+    val localProps =
+        Properties().apply {
+            val localPropertiesFile = rootProject.file("local.properties")
+            if (localPropertiesFile.exists()) {
+                localPropertiesFile.inputStream().use { load(it) }
+            }
+        }
+
+    // Access credentials
+    val spotifyGrantType: String? = localProps.getProperty("spotify_grant_type")
+    val spotifyClientId: String? = localProps.getProperty("spotify_client_id")
+    val spotifyClientSecret: String? = localProps.getProperty("spotify_client_secret")
+
+    defaultConfig {
+        buildConfigField("String", "SPOTIFY_GRANT_TYPE", "\"${spotifyGrantType}\"")
+        buildConfigField("String", "SPOTIFY_CLIENT_ID", "\"${spotifyClientId}\"")
+        buildConfigField("String", "SPOTIFY_CLIENT_SECRET", "\"${spotifyClientSecret}\"")
     }
 
     buildTypes {
@@ -150,9 +171,14 @@ dependencies {
     // retrofit
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
+    implementation(libs.logging.interceptor)
 
     // glide
     implementation(libs.glide)
+
+    // spotify android sdk
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar"))))
+//    implementation(libs.spotify.android.auth.sdk)
 }
 
 // Ktlint configuration

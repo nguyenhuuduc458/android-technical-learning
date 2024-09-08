@@ -4,6 +4,7 @@ import com.example.note.note_module.domain.model.Note
 import com.example.note.note_module.domain.repository.NoteRepository
 import com.example.note.note_module.domain.util.NoteOrder
 import com.example.note.note_module.domain.util.OrderType
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.Locale
@@ -35,13 +36,15 @@ class NoteUseCase(
             }
         }
 
-    suspend fun deleteNote(note: Note) {
-        noteRepository.deleteNote(note)
-    }
+    suspend fun deleteNote(note: Note) =
+        coroutineScope {
+            noteRepository.deleteNote(note)
+        }
 
-    suspend fun insertNote(note: Note) {
-        noteRepository.insertNote(note)
-    }
+    suspend fun insertNote(note: Note) =
+        coroutineScope {
+            noteRepository.insertNote(note)
+        }
 
-    suspend fun findNoteById(noteId: Int): Note? = noteRepository.findById(noteId)
+    suspend fun findNoteById(noteId: Int): Note? = coroutineScope { noteRepository.findById(noteId) }
 }

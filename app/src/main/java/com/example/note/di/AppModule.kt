@@ -10,6 +10,7 @@ val appModule
             includes(
                 sharedPreferences,
                 databaseModule,
+                networkModule,
                 accountModule,
                 noteModule,
             )
