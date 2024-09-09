@@ -2,20 +2,15 @@ package com.example.note.core.compose
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,11 +22,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldColors
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.TextFieldDefaults.OutlinedTextFieldDecorationBox
+// import androidx.compose.material3.TextFieldDefaults.OutlinedTextFieldDecorationBox
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -55,7 +47,7 @@ fun BasicOutlineTextField(
     label: String,
     placeHolder: String,
     onValueChanged: (String) -> Unit,
-    colors: TextFieldColors = TextFieldDefaults.outlinedTextFieldColors(),
+//    colors: TextFieldColors = TextFieldDefaults.outlinedTextFieldColors(),
 ) {
     OutlinedTextField(
         modifier = modifier.fillMaxWidth(),
@@ -69,7 +61,7 @@ fun BasicOutlineTextField(
         placeholder = {
             Text(placeHolder, color = Color.LightGray)
         },
-        colors = colors,
+//        colors = colors,
     )
 }
 
@@ -130,53 +122,53 @@ fun BasicOutlinePasswordTextField(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun BasicSearchView(
-    modifier: Modifier = Modifier,
-    searchValue: String,
-    onValueChanged: (String) -> Unit = {},
-    onDone: () -> Unit = {},
-    colors: TextFieldColors = TextFieldDefaults.textFieldColors(containerColor = Color.White),
-) {
-    val keyboardController = LocalSoftwareKeyboardController.current
-    BasicTextField(
-        value = searchValue,
-        onValueChange = { onValueChanged(it) },
-        modifier = modifier.fillMaxWidth().height(40.dp),
-        singleLine = true,
-        keyboardOptions =
-            KeyboardOptions(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Done,
-            ),
-        keyboardActions =
-            KeyboardActions(
-                onDone = {
-                    keyboardController?.hide()
-                    onDone()
-                },
-            ),
-        decorationBox = { innerTextField ->
-            OutlinedTextFieldDecorationBox(
-                value = searchValue,
-                innerTextField = innerTextField,
-                enabled = true,
-                singleLine = true,
-                visualTransformation = VisualTransformation.None,
-                interactionSource = remember { MutableInteractionSource() },
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Default.Search,
-                        contentDescription = "Search icon",
-                    )
-                },
-                placeholder = { Text("Search", color = Color.LightGray, modifier = modifier.fillMaxSize()) },
-                colors = colors,
-            )
-        },
-    )
-}
+// @OptIn(ExperimentalMaterial3Api::class)
+// @Composable
+// fun BasicSearchView(
+//    modifier: Modifier = Modifier,
+//    searchValue: String,
+//    onValueChanged: (String) -> Unit = {},
+//    onDone: () -> Unit = {},
+//    colors: TextFieldColors = TextFieldDefaults.textFieldColors(containerColor = Color.White),
+// ) {
+//    val keyboardController = LocalSoftwareKeyboardController.current
+//    BasicTextField(
+//        value = searchValue,
+//        onValueChange = { onValueChanged(it) },
+//        modifier = modifier.fillMaxWidth().height(40.dp),
+//        singleLine = true,
+//        keyboardOptions =
+//            KeyboardOptions(
+//                keyboardType = KeyboardType.Text,
+//                imeAction = ImeAction.Done,
+//            ),
+//        keyboardActions =
+//            KeyboardActions(
+//                onDone = {
+//                    keyboardController?.hide()
+//                    onDone()
+//                },
+//            ),
+//        decorationBox = { innerTextField ->
+//            OutlinedTextFieldDecorationBox(
+//                value = searchValue,
+//                innerTextField = innerTextField,
+//                enabled = true,
+//                singleLine = true,
+//                visualTransformation = VisualTransformation.None,
+//                interactionSource = remember { MutableInteractionSource() },
+//                leadingIcon = {
+//                    Icon(
+//                        imageVector = Icons.Default.Search,
+//                        contentDescription = "Search icon",
+//                    )
+//                },
+//                placeholder = { Text("Search", color = Color.LightGray, modifier = modifier.fillMaxSize()) },
+//                colors = colors,
+//            )
+//        },
+//    )
+// }
 
 @Composable
 fun BasicButton(

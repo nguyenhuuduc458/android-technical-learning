@@ -55,11 +55,11 @@ fun SignUp1Screen() {
                 placeHolder = "",
                 onValueChanged = { value ->
                 },
-                colors =
-                    TextFieldDefaults.textFieldColors(
-                        containerColor = colorResource(R.color.gray),
-                        textColor = Color.Black,
-                    ),
+//                colors =
+//                    TextFieldDefaults.textFieldColors(
+//                        containerColor = colorResource(R.color.gray),
+//                        textColor = Color.Black,
+//                    ),
             )
             Spacer(modifier = Modifier.padding(5.dp))
             Text(
