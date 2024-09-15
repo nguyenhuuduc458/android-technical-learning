@@ -12,7 +12,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.note.R
-import com.example.note.core.compose.BasicSearchView
+//import com.example.note.core.compose.BasicSearchView
 import com.example.note.spotify_module.presenter.signup.Header
 
 @Composable
@@ -26,7 +26,7 @@ fun ChoseArtistScreen() {
     ) {
         Header(headerText = "Choose 3 or more artists you like.")
         Column(modifier = Modifier.padding(10.dp).fillMaxWidth()) {
-            BasicSearchView(modifier = Modifier, "")
+//            BasicSearchView(modifier = Modifier, "")
         }
     }
 }

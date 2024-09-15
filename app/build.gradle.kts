@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ktlint)
 }
 
@@ -117,6 +118,7 @@ dependencies {
     // App dependencies
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlin.gradle.plugin)
 
     // Android Core Library
     implementation(libs.core.ktx)

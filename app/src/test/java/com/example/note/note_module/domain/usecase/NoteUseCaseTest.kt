@@ -8,6 +8,7 @@ import com.example.note.note_module.domain.util.OrderType
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertThrows
 import org.junit.Before
@@ -178,13 +179,13 @@ class NoteUseCaseTest {
                 )
             val exception1 =
                 assertThrows(java.lang.IllegalStateException::class.java) {
-                    runTest {
+                    runBlocking {
                         noteUseCase.insertNote(note1)
                     }
                 }
             val exception2 =
                 assertThrows(java.lang.IllegalStateException::class.java) {
-                    runTest {
+                    runBlocking {
                         noteUseCase.insertNote(note2)
                     }
                 }
@@ -235,7 +236,7 @@ class NoteUseCaseTest {
             if (newNote != null) {
                 val exception1 =
                     assertThrows(java.lang.IllegalStateException::class.java) {
-                        runTest {
+                        runBlocking {
                             noteUseCase.insertNote(newNote)
                         }
                     }
