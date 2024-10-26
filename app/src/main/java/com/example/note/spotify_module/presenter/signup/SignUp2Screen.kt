@@ -13,7 +13,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,10 +28,10 @@ import com.example.note.core.compose.BasicOutlineTextField
 fun SignUp2Screen() {
     Column(
         modifier =
-        Modifier
-            .fillMaxSize()
-            .background(color = colorResource(R.color.space_black))
-            .padding(16.dp),
+            Modifier
+                .fillMaxSize()
+                .background(color = colorResource(R.color.space_black))
+                .padding(16.dp),
     ) {
         Header()
         Spacer(modifier = Modifier.padding(10.dp))

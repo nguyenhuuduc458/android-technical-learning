@@ -78,7 +78,7 @@ androidx-test = { module = "androidx.test:core-ktx", version.ref = "test-core" }
 androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitKtx" }
 robolectric-test = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 spotify-android-auth-sdk = { module = "com.spotify.android:auth", version.ref = "spotify-sdk"}
-kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-gradle-plugin" }
+#kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-gradle-plugin" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "agp" }

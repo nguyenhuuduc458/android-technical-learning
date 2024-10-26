@@ -118,7 +118,7 @@ dependencies {
     // App dependencies
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.serialization.json)
-    implementation(libs.kotlin.gradle.plugin)
+//    implementation(libs.kotlin.gradle.plugin)
 
     // Android Core Library
     implementation(libs.core.ktx)

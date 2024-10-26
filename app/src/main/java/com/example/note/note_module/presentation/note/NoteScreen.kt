@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -85,7 +86,7 @@ fun NoteScreen(
                     style = MaterialTheme.typography.titleMedium,
                 )
                 IconButton(onClick = { viewModel.onEvent(NoteEvent.ToggleOrderSection) }) {
-                    Icon(imageVector = Icons.Default.List, contentDescription = "Showing sort view")
+                    Icon(imageVector = Icons.AutoMirrored.Filled.List, contentDescription = "Showing sort view")
                 }
             }
             AnimatedVisibility(

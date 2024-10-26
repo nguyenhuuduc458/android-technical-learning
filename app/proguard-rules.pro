@@ -98,3 +98,5 @@
 
 # Uncomment for DexGuard only
 #-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+-keep class com.fasterxml.jackson.** { *; }
+-dontwarn com.fasterxml.jackson.**
