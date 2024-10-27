@@ -3,16 +3,16 @@ package com.example.note.account_module.data.repository
 import com.example.note.account_module.data.data_source.AccountDao
 import com.example.note.account_module.domain.model.Account
 import com.example.note.account_module.domain.repository.AccountRepository
+import com.example.note.di.hilt.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 class AccountRepositoryImpl
-    @OptIn(ExperimentalCoroutinesApi::class)
+    @Inject
     constructor(
         private val accountDao: AccountDao,
-        private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO.limitedParallelism(1),
+        @IoDispatcher private val defaultDispatcher: CoroutineDispatcher,
     ) : AccountRepository {
         override suspend fun register(
             username: String,

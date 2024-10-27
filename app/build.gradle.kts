@@ -9,6 +9,8 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.hilt.android)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -160,13 +162,18 @@ dependencies {
     implementation(libs.room.ktx)
 
     // koin
-    implementation(platform(libs.koin.bom))
-    implementation(libs.koin.core)
-    implementation(libs.koin.android.compat)
-    implementation(libs.koin.androidx.compose)
-    implementation(libs.koin.androidx.navigation)
-    implementation(libs.koin.androidx.workmanager)
-    implementation(libs.koin.androidx.test)
+//    implementation(platform(libs.koin.bom))
+//    implementation(libs.koin.core)
+//    implementation(libs.koin.android.compat)
+//    implementation(libs.koin.androidx.compose)
+//    implementation(libs.koin.androidx.navigation)
+//    implementation(libs.koin.androidx.workmanager)
+//    implementation(libs.koin.androidx.test)
+
+    // hilt
+    implementation(libs.hilt)
+    testImplementation(libs.hilt.testing)
+    ksp(libs.hilt.compiler)
 
     // retrofit
     implementation(libs.retrofit)

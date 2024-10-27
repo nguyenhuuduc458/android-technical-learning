@@ -29,10 +29,10 @@ import com.example.note.core.compose.BasicOutlineTextField
 fun SignUp2Screen() {
     Column(
         modifier =
-        Modifier
-            .fillMaxSize()
-            .background(color = colorResource(R.color.space_black))
-            .padding(16.dp),
+            Modifier
+                .fillMaxSize()
+                .background(color = colorResource(R.color.space_black))
+                .padding(16.dp),
     ) {
         Header()
         Spacer(modifier = Modifier.padding(10.dp))
@@ -51,10 +51,10 @@ fun SignUp2Screen() {
                 onValueChanged = { value ->
                 },
                 colors =
-                TextFieldDefaults.textFieldColors(
-                    containerColor = colorResource(R.color.gray),
-                    textColor = Color.Black,
-                ),
+                    TextFieldDefaults.textFieldColors(
+                        containerColor = colorResource(R.color.gray),
+                        textColor = Color.Black,
+                    ),
             )
             Spacer(modifier = Modifier.padding(5.dp))
             Text(

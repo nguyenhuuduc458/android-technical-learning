@@ -1,12 +1,11 @@
 package com.example.note.account_module.domain.usecase
 
-import android.content.SharedPreferences
 import com.example.note.account_module.domain.model.Account
 import com.example.note.account_module.domain.usecase.data.FakeAccountRepository
 import com.example.note.account_module.presentation.login.LoginViewModel
 import com.example.note.account_module.presentation.register.RegisterUiState
 import com.example.note.account_module.presentation.register.RegisterViewModel
-import com.example.note.core.sharepreference.SharePreferenceUtil.currentLoginAccountId
+import com.example.note.core.sharepreference.SharePreferenceUtil
 import com.example.note.di.MainCoroutineRule
 import com.google.common.truth.Truth.assertThat
 import io.mockk.every
@@ -16,37 +15,21 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.koin.dsl.module
-import org.koin.test.AutoCloseKoinTest
-import org.koin.test.KoinTestRule
-import org.koin.test.inject
 import org.mockito.kotlin.never
 import org.mockito.kotlin.spy
 import org.mockito.kotlin.verify
 
 @ExperimentalCoroutinesApi
-class AccountUseCaseTest : AutoCloseKoinTest() {
+class AccountUseCaseTest {
     private lateinit var accountUseCase: AccountUseCase
     private lateinit var fakeAccountRepository: FakeAccountRepository
     private lateinit var registerViewModel: RegisterViewModel
     private lateinit var loginViewModel: LoginViewModel
 
     @get:Rule
-    val koinTestRule =
-        KoinTestRule.create {
-            modules(testRuleModule)
-        }
-
-    @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
-    private val sharedPreferences: SharedPreferences by inject()
-
-    private val testRuleModule
-        get() =
-            module {
-                single<SharedPreferences> { mockk(relaxed = true) }
-            }
+    var sharedPreferences: SharePreferenceUtil = mockk(relaxed = true)
 
     @Before
     fun setUp() {
@@ -56,7 +39,7 @@ class AccountUseCaseTest : AutoCloseKoinTest() {
             }
         accountUseCase = AccountUseCase(fakeAccountRepository)
         registerViewModel = RegisterViewModel(accountUseCase)
-        loginViewModel = LoginViewModel(accountUseCase)
+        loginViewModel = LoginViewModel(accountUseCase, sharedPreferences)
     }
 
     @Test
@@ -65,12 +48,12 @@ class AccountUseCaseTest : AutoCloseKoinTest() {
             enterUsername("Kevin")
             enterPassword("1234")
         }
-        every { sharedPreferences.getInt("currentAccountId", -1) } returns 0
+        every { sharedPreferences.currentLoginAccountId } returns 0
         loginViewModel.login()
 
         val account = fakeAccountRepository.accounts.find { it.username == "Kevin" }
 
-        assertThat(currentLoginAccountId).isEqualTo(0)
+        assertThat(sharedPreferences.currentLoginAccountId).isEqualTo(0)
         assertThat(account).isNotNull()
         assertThat(account?.username).isEqualTo("Kevin")
         assertThat(account?.password).isEqualTo("1234")

@@ -1,55 +1,50 @@
 package com.example.note.core.retrofit
 
-import com.example.note.BuildConfig
 import com.example.note.core.retrofit.authentication.TokenApiService
-import com.example.note.core.retrofit.authentication.TokenDto
-import com.example.note.core.sharepreference.SecureSharePreferenceUtil
-import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
-import org.koin.java.KoinJavaComponent.inject
-import java.net.HttpURLConnection.HTTP_UNAUTHORIZED
+import javax.inject.Inject
 
-class OAuthAuthenticator : Authenticator {
-    private val tokenApiService: TokenApiService by inject(TokenApiService::class.java)
+class OAuthAuthenticator
+    @Inject
+    constructor(
+        private val apiService: TokenApiService,
+    ) : Authenticator {
+        override fun authenticate(
+            route: Route?,
+            response: Response,
+        ): Request? {
+            // Avoid retrying if we've already attempted token refresh multiple times
+//            if (responseCount(response) >= 3) return null
 
-    override fun authenticate(
-        route: Route?,
-        response: Response,
-    ): Request? {
-        if (response.request.header("Authorization") == null) {
-            val accessToken = SecureSharePreferenceUtil.accessToken
-            return response
-                .request
-                .newBuilder()
-                .header("Authorization", "Bearer $accessToken")
-                .build()
-        }
+            // Get the current refresh token
+//            val refreshToken = TokenManager.getRefreshToken() ?: return null
 
-        if (response.code == HTTP_UNAUTHORIZED) {
-            synchronized(this) {
-                return runBlocking {
-                    try {
-                        val tokenDto: TokenDto =
-                            tokenApiService.getAccessToken(
-                                BuildConfig.SPOTIFY_GRANT_TYPE,
-                                BuildConfig.SPOTIFY_CLIENT_ID,
-                                BuildConfig.SPOTIFY_CLIENT_SECRET,
-                            )
-                        SecureSharePreferenceUtil.accessToken = tokenDto.accessToken
-                        return@runBlocking response
-                            .request
-                            .newBuilder()
-                            .header("Authorization", "Bearer ${tokenDto.accessToken}")
-                            .build()
-                    } catch (e: Exception) {
-                        return@runBlocking null
-                    }
-                }
+            // Synchronously request a new token using the refresh token
+            val newToken = "fds"
+//                runBlocking {
+//                    try {
+//                        val response = apiService.refreshToken(refreshToken) // Your refresh API call
+//                        if (response.isSuccessful) {
+//                            val newAccessToken = response.body()?.accessToken
+//                            tokenManager.saveAccessToken(newAccessToken) // Save new token
+//                            newAccessToken
+//                        } else {
+//                            null
+//                        }
+//                    } catch (e: Exception) {
+//                        null
+//                    }
+//                }
+
+            // Retry the original request with the new token, if obtained
+            return newToken.let {
+                response.request
+                    .newBuilder()
+                    .header("Authorization", "Bearer $it")
+                    .build()
             }
         }
-        return response.request
     }
-}

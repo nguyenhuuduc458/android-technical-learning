@@ -4,12 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.note.account_module.domain.model.Account
 import com.example.note.account_module.domain.usecase.AccountUseCase
-import com.example.note.core.sharepreference.SharePreferenceUtil.currentLoginAccountId
+import com.example.note.core.sharepreference.SharePreferenceUtil
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 data class LoginUiState(
     val username: String = "",
@@ -19,57 +21,61 @@ data class LoginUiState(
     val isLoggedIn: Boolean = false,
 )
 
-class LoginViewModel(
-    private val accountUseCase: AccountUseCase,
-) : ViewModel() {
-    private val _uiState = MutableStateFlow(LoginUiState())
-    val uiState: StateFlow<LoginUiState>
-        get() = _uiState.asStateFlow()
+@HiltViewModel
+class LoginViewModel
+    @Inject
+    constructor(
+        private val accountUseCase: AccountUseCase,
+        private val sharePreferenceUtil: SharePreferenceUtil,
+    ) : ViewModel() {
+        private val _uiState = MutableStateFlow(LoginUiState())
+        val uiState: StateFlow<LoginUiState>
+            get() = _uiState.asStateFlow()
 
-    fun login() {
-        viewModelScope.launch {
-            val uiStateVal = _uiState.value
-            val username = uiStateVal.username
-            val password = uiStateVal.password
+        fun login() {
+            viewModelScope.launch {
+                val uiStateVal = _uiState.value
+                val username = uiStateVal.username
+                val password = uiStateVal.password
 
-            if (!isInputValid(username, password)) {
-                _uiState.update { it.copy(isLoggingIn = false, errorMessage = "Username or password is not empty") }
-                return@launch
+                if (!isInputValid(username, password)) {
+                    _uiState.update { it.copy(isLoggingIn = false, errorMessage = "Username or password is not empty") }
+                    return@launch
+                }
+
+                _uiState.update { it.copy(isLoggingIn = true, errorMessage = null) }
+                val account: Account? = accountUseCase.login(username, password)
+                if (account == null) {
+                    onLoginError()
+                    return@launch
+                }
+                onLoginSuccess(account)
             }
+        }
 
-            _uiState.update { it.copy(isLoggingIn = true, errorMessage = null) }
-            val account: Account? = accountUseCase.login(username, password)
-            if (account == null) {
-                onLoginError()
-                return@launch
+        private fun onLoginSuccess(account: Account) {
+            _uiState.update {
+                it.copy(isLoggedIn = true, isLoggingIn = false, errorMessage = null)
             }
-            onLoginSuccess(account)
+            sharePreferenceUtil.currentLoginAccountId = account.accountId
         }
-    }
 
-    private fun onLoginSuccess(account: Account) {
-        _uiState.update {
-            it.copy(isLoggedIn = true, isLoggingIn = false, errorMessage = null)
+        private fun onLoginError() {
+            _uiState.update {
+                it.copy(isLoggingIn = false, errorMessage = "Invalid username or password")
+            }
         }
-        currentLoginAccountId = account.accountId
-    }
 
-    private fun onLoginError() {
-        _uiState.update {
-            it.copy(isLoggingIn = false, errorMessage = "Invalid username or password")
+        fun enterUsername(username: String) {
+            _uiState.update { it.copy(username = username, errorMessage = null) }
         }
-    }
 
-    fun enterUsername(username: String) {
-        _uiState.update { it.copy(username = username, errorMessage = null) }
-    }
+        fun enterPassword(password: String) {
+            _uiState.update { it.copy(password = password, errorMessage = null) }
+        }
 
-    fun enterPassword(password: String) {
-        _uiState.update { it.copy(password = password, errorMessage = null) }
+        private fun isInputValid(
+            username: String,
+            password: String,
+        ): Boolean = !(username.isBlank() || password.isBlank())
     }
-
-    private fun isInputValid(
-        username: String,
-        password: String,
-    ): Boolean = !(username.isBlank() || password.isBlank())
-}

@@ -1,19 +1,19 @@
 package com.example.note.note_module.data.repository
 
+import com.example.note.di.hilt.IoDispatcher
 import com.example.note.note_module.data.data_source.NoteDao
 import com.example.note.note_module.domain.model.Note
 import com.example.note.note_module.domain.repository.NoteRepository
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 class NoteRepositoryImpl
-    @OptIn(ExperimentalCoroutinesApi::class)
+    @Inject
     constructor(
         private val noteDao: NoteDao,
-        private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO.limitedParallelism(1),
+        @IoDispatcher private val defaultDispatcher: CoroutineDispatcher,
     ) : NoteRepository {
         override fun getNoteByAccountId(accountId: Int): Flow<List<Note>> = noteDao.getNoteByAccountId(accountId)
 

@@ -22,15 +22,16 @@ robolectric = "4.13"
 spotify-sdk = "1.2.5"
 
 # @keep
-ksp = "1.8.10-1.0.9"
+ksp = "2.0.10-1.0.24"
 koin = "3.5.6"
-kotlin = "1.8.10"
+kotlin = "2.0.10"
 kotlinxDatetime = "0.4.0"
 kotlinxCoroutines = "1.6.4"
 kotlinxSerializationJson = "1.6.0"
 truth = "1.1.2"
 mockk = "1.13.5"
 junitKtx = "1.2.1"
+hilt-android = "2.51.1"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -52,6 +53,9 @@ material3 = { group = "androidx.compose.material3", name = "material3" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androidx-room" }
 room-complier = { group = "androidx.room", name = "room-compiler", version.ref = "androidx-room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "androidx-room" }
+hilt = { module = "com.google.dagger:hilt-android", version.ref = "hilt-android"}
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt-android" }
+hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt-android" }
 koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-android-compat = { module = "io.insert-koin:koin-android-compat", version.ref = "koin" }
@@ -87,6 +91,9 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
+hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt-android" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin"}
+
 
 [bundles]
 

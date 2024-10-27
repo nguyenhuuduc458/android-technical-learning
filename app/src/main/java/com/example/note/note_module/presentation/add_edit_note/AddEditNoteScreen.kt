@@ -38,20 +38,20 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.note.note_module.domain.model.Note
 import com.example.note.note_module.presentation.add_edit_note.components.AddEditNoteEvent
 import com.example.note.note_module.presentation.add_edit_note.components.NoteTextFieldState
 import com.example.note.note_module.presentation.add_edit_note.components.TransparentHintTextField
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.koinViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEditNoteScreen(
     noteId: Int = -1,
-    viewModel: AddEditNoteViewModel = koinViewModel(),
+    viewModel: AddEditNoteViewModel = viewModel(),
     onBackPress: () -> Unit,
 ) {
     viewModel.getNote(noteId)
