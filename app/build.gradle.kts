@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.ktlint)
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.parcelize)
 }
 
 android {
@@ -173,6 +174,7 @@ dependencies {
     // hilt
     implementation(libs.hilt)
     testImplementation(libs.hilt.testing)
+    implementation(libs.hilt.compose)
     ksp(libs.hilt.compiler)
 
     // retrofit

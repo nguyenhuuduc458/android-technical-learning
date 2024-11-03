@@ -6,7 +6,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
 import com.example.note.account_module.presentation.login.LoginScreen
 import com.example.note.account_module.presentation.register.RegisterScreen
 import com.example.note.note_module.presentation.add_edit_note.AddEditNoteScreen
@@ -16,8 +15,7 @@ import com.example.note.spotify_module.presenter.start.StartScreen
 @Composable
 fun NoteGraph(
     navController: NavHostController = rememberNavController(),
-//    startDestination: Any = if (currentLoginAccountId != -1) NoteRoute else LoginRoute,
-    startDestination: Any = StartRoute,
+    startDestination: Any = LoginRoute,
     navActions: NoteGraphNavigationActions =
         remember(navController) {
             NoteGraphNavigationActions(navController)
@@ -42,10 +40,8 @@ fun NoteGraph(
                 navActions.navigateToAddEditScreen(note.noteId)
             })
         }
-        composable<AddEditNoteRoute> { backStackEntry ->
-            val route = backStackEntry.toRoute<AddEditNoteRoute>()
+        composable<AddEditNoteRoute> {
             AddEditNoteScreen(
-                noteId = route.noteId,
                 onBackPress = { navActions.onBackPressed() },
             )
         }

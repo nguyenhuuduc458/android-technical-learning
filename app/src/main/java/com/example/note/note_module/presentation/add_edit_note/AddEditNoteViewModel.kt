@@ -1,8 +1,11 @@
 package com.example.note.note_module.presentation.add_edit_note
 
 import androidx.compose.ui.graphics.toArgb
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
+import com.example.note.core.navigation.AddEditNoteRoute
 import com.example.note.core.sharepreference.SharePreferenceUtil
 import com.example.note.note_module.domain.model.Note
 import com.example.note.note_module.domain.usecase.NoteUseCase
@@ -23,6 +26,7 @@ import javax.inject.Inject
 class AddEditNoteViewModel
     @Inject
     constructor(
+        savedStateHandle: SavedStateHandle,
         private val noteUseCase: NoteUseCase,
         private val sharePreferenceUtil: SharePreferenceUtil,
     ) : ViewModel() {
@@ -38,12 +42,12 @@ class AddEditNoteViewModel
         private val _eventFlow = MutableSharedFlow<NoteUiEvent>()
         val eventFlow = _eventFlow.asSharedFlow()
 
-        private var currentNoteId: Int = -1
+        private var currentNoteId: Int = savedStateHandle.toRoute<AddEditNoteRoute>().noteId
 
-        fun getNote(noteId: Int = -1) {
-            if (noteId == -1) return
+        init {
             viewModelScope.launch {
-                noteUseCase.findNoteById(noteId)?.also { note ->
+                if (currentNoteId == -1) return@launch
+                noteUseCase.findNoteById(currentNoteId)?.also { note ->
                     currentNoteId = note.noteId
                     _noteTitle.update {
                         it.copy(title = note.title, isHintVisible = false)

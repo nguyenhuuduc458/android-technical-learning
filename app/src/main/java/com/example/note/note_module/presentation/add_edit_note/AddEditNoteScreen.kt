@@ -38,7 +38,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.note.note_module.domain.model.Note
 import com.example.note.note_module.presentation.add_edit_note.components.AddEditNoteEvent
 import com.example.note.note_module.presentation.add_edit_note.components.NoteTextFieldState
@@ -51,10 +51,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun AddEditNoteScreen(
     noteId: Int = -1,
-    viewModel: AddEditNoteViewModel = viewModel(),
+    viewModel: AddEditNoteViewModel = hiltViewModel(),
     onBackPress: () -> Unit,
 ) {
-    viewModel.getNote(noteId)
     val titleState: NoteTextFieldState by viewModel.noteTitle.collectAsState()
     val contentState: NoteTextFieldState by viewModel.noteContent.collectAsState()
     val snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }

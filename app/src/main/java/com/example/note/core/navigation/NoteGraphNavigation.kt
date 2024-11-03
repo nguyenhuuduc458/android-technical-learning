@@ -21,7 +21,7 @@ data class AddEditNoteRoute(
 @Serializable
 object StartRoute
 
-class NoteGraphNavigationActions(
+data class NoteGraphNavigationActions(
     private val navController: NavHostController,
 ) {
     fun navigateToLogin() {
