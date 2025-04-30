@@ -30,18 +30,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.note.R
 import com.example.note.core.compose.BasicButton
 import com.example.note.core.compose.BasicOutlinePasswordTextField
 import com.example.note.core.compose.BasicOutlineTextField
 import com.example.note.ui.theme.customColor
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun LoginScreen(
     onSignUp: () -> Unit = {},
     onLoginSuccess: () -> Unit = {},
-    viewModel: LoginViewModel = koinViewModel(),
+    viewModel: LoginViewModel = hiltViewModel(),
 ) {
     val uiState: LoginUiState by viewModel.uiState.collectAsState()
     ConstraintLayout(

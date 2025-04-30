@@ -3,6 +3,9 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
+        flatDir {
+            dirs("libs") // Adds the 'libs' directory as a repository
+        }
     }
 }
 dependencyResolutionManagement {

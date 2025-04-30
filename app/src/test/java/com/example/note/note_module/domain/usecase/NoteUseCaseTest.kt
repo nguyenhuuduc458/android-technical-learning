@@ -9,6 +9,7 @@ import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertThrows
 import org.junit.Before
 import org.junit.Rule
@@ -50,88 +51,98 @@ class NoteUseCaseTest {
     }
 
     @Test
-    fun `test get correct note list for specific user`() {
-        val kevinNote = noteUseCase.getNotesWithOrder(kevinId)
-        val jackNote = noteUseCase.getNotesWithOrder(jackId)
+    fun `test get correct note list for specific user`() =
+        runTest {
+            val kevinNote = noteUseCase.getNotesWithOrder(kevinId)
+            val jackNote = noteUseCase.getNotesWithOrder(jackId)
 
-        runBlocking {
             kevinNote.collectLatest { assertThat(it.size).isEqualTo(5) }
             jackNote.collectLatest { assertThat(it.size).isEqualTo(6) }
         }
-    }
 
     @Test
     fun `Order note by title ascending, correct order`() =
-        runBlocking {
-            noteUseCase.getNotesWithOrder(kevinId, NoteOrder.Title(OrderType.Ascending)).collectLatest {
-                for (i in 0 until it.size - 2) {
-                    assertThat(it[i].title).isLessThan(it[i + 1].title)
+        runTest {
+            noteUseCase
+                .getNotesWithOrder(kevinId, NoteOrder.Title(OrderType.Ascending))
+                .collectLatest {
+                    for (i in 0 until it.size - 2) {
+                        assertThat(it[i].title).isLessThan(it[i + 1].title)
+                    }
                 }
-            }
         }
 
     @Test
     fun `Order note by title descending, correct order`() =
-        runBlocking {
-            noteUseCase.getNotesWithOrder(kevinId, NoteOrder.Title(OrderType.Descending)).collectLatest {
-                for (i in 0 until it.size - 2) {
-                    assertThat(it[i].title).isGreaterThan(it[i + 1].title)
+        runTest {
+            noteUseCase
+                .getNotesWithOrder(kevinId, NoteOrder.Title(OrderType.Descending))
+                .collectLatest {
+                    for (i in 0 until it.size - 2) {
+                        assertThat(it[i].title).isGreaterThan(it[i + 1].title)
+                    }
                 }
-            }
         }
 
     @Test
     fun `Order note by date ascending, correct order`() =
-        runBlocking {
-            noteUseCase.getNotesWithOrder(kevinId, NoteOrder.Date(OrderType.Ascending)).collectLatest {
-                for (i in 0 until it.size - 2) {
-                    assertThat(it[i].createdAt).isLessThan(it[i + 1].createdAt)
+        runTest {
+            noteUseCase
+                .getNotesWithOrder(kevinId, NoteOrder.Date(OrderType.Ascending))
+                .collectLatest {
+                    for (i in 0 until it.size - 2) {
+                        assertThat(it[i].createdAt).isLessThan(it[i + 1].createdAt)
+                    }
                 }
-            }
         }
 
     @Test
     fun `Order note by date descending, correct order`() =
-        runBlocking {
-            noteUseCase.getNotesWithOrder(kevinId, NoteOrder.Date(OrderType.Descending)).collectLatest {
-                for (i in 0 until it.size - 2) {
-                    assertThat(it[i].createdAt).isGreaterThan(it[i + 1].createdAt)
+        runTest {
+            noteUseCase
+                .getNotesWithOrder(kevinId, NoteOrder.Date(OrderType.Descending))
+                .collectLatest {
+                    for (i in 0 until it.size - 2) {
+                        assertThat(it[i].createdAt).isGreaterThan(it[i + 1].createdAt)
+                    }
                 }
-            }
         }
 
     @Test
     fun `Order note by color ascending, correct order`() =
-        runBlocking {
-            noteUseCase.getNotesWithOrder(kevinId, NoteOrder.Color(OrderType.Ascending)).collectLatest {
-                for (i in 0 until it.size - 2) {
-                    assertThat(it[i].color).isLessThan(it[i + 1].color)
+        runTest {
+            noteUseCase
+                .getNotesWithOrder(kevinId, NoteOrder.Color(OrderType.Ascending))
+                .collectLatest {
+                    for (i in 0 until it.size - 2) {
+                        assertThat(it[i].color).isLessThan(it[i + 1].color)
+                    }
                 }
-            }
         }
 
     @Test
     fun `Order note by color descending, correct order`() =
-        runBlocking {
-            noteUseCase.getNotesWithOrder(kevinId, NoteOrder.Title(OrderType.Descending)).collectLatest {
-                for (i in 0 until it.size - 2) {
-                    assertThat(it[i].color).isGreaterThan(it[i + 1].color)
+        runTest {
+            noteUseCase
+                .getNotesWithOrder(kevinId, NoteOrder.Title(OrderType.Descending))
+                .collectLatest {
+                    for (i in 0 until it.size - 2) {
+                        assertThat(it[i].color).isGreaterThan(it[i + 1].color)
+                    }
                 }
-            }
         }
 
     @Test
-    fun `Delete note successfully`() {
-        val note = fakeNoteRepository.notes[0]
-        runBlocking {
+    fun `Delete note successfully`() =
+        runTest {
+            val note = fakeNoteRepository.notes[0]
             noteUseCase.deleteNote(note)
             assertThat(fakeNoteRepository.notes.contains(note)).isFalse()
         }
-    }
 
     @Test
     fun `Insert note successfully`() =
-        runBlocking {
+        runTest {
             val note =
                 Note(
                     noteId = 15,
@@ -147,7 +158,7 @@ class NoteUseCaseTest {
 
     @Test
     fun `Failed to insert note due to blank title or description`() =
-        runBlocking {
+        runTest {
             val note1 =
                 Note(
                     noteId = 12,
@@ -168,15 +179,11 @@ class NoteUseCaseTest {
                 )
             val exception1 =
                 assertThrows(java.lang.IllegalStateException::class.java) {
-                    runBlocking {
-                        noteUseCase.insertNote(note1)
-                    }
+                    runBlocking { noteUseCase.insertNote(note1) }
                 }
             val exception2 =
                 assertThrows(java.lang.IllegalStateException::class.java) {
-                    runBlocking {
-                        noteUseCase.insertNote(note2)
-                    }
+                    runBlocking { noteUseCase.insertNote(note2) }
                 }
             assertThat(exception1.message).contains("Title is not null or empty")
             assertThat(exception2.message).contains("Description is not null or empty")
@@ -186,7 +193,7 @@ class NoteUseCaseTest {
 
     @Test
     fun `Update note successfully`() =
-        runBlocking {
+        runTest {
             val note =
                 Note(
                     noteId = 17,
@@ -208,7 +215,7 @@ class NoteUseCaseTest {
 
     @Test
     fun `Failed to update note due to blank title or description`() =
-        runBlocking {
+        runTest {
             val note =
                 Note(
                     noteId = 12,

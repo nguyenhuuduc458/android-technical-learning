@@ -38,6 +38,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.note.note_module.domain.model.Note
 import com.example.note.note_module.domain.util.NoteEvent
 import com.example.note.note_module.domain.util.NoteState
@@ -45,13 +47,12 @@ import com.example.note.note_module.presentation.note.component.NoteItem
 import com.example.note.note_module.presentation.note.component.OrderSection
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.koinViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteScreen(
-    viewModel: NoteViewModel = koinViewModel(),
+    viewModel: NoteViewModel = hiltViewModel(),
     onCreateItem: () -> Unit,
     onEditItem: (Note) -> Unit,
 ) {

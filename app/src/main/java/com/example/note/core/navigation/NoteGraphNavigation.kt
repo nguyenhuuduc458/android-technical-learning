@@ -1,4 +1,4 @@
-package com.example.note
+package com.example.note.core.navigation
 
 import androidx.navigation.NavHostController
 import kotlinx.serialization.Serializable
@@ -18,7 +18,10 @@ data class AddEditNoteRoute(
     val noteId: Int = -1,
 )
 
-class NoteGraphNavigationActions(
+@Serializable
+object StartRoute
+
+data class NoteGraphNavigationActions(
     private val navController: NavHostController,
 ) {
     fun navigateToLogin() {
